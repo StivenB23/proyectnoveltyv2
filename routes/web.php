@@ -39,8 +39,10 @@ Route::post('/recoverpassword', [RecoverPasswordController::class, 'recover']);
 Route::get('/Registro', [UserController::class, 'create'])->middleware('auth')->name('formUser');
 Route::post('/Registro', [UserController::class, 'store'])->middleware('auth')->name('formUser');
 
+Route::get('/Novedades', [NoveltyController::class, 'index'])->middleware('auth')->name('novelties');
 Route::get('/Novedad', [NoveltyController::class, 'create'])->middleware('auth')->name('novelty');
 Route::post('/Novedad', [NoveltyController::class, 'store'])->name('novelty');
+Route::post('/limpiarNovedades', [NoveltyController::class, 'cleanNovelty'])->middleware('auth')->name('noveltyClean');
 Route::put('/novedad', [NoveltyController::class,'update']);
 
 
@@ -49,6 +51,7 @@ Route::get('/miambiente', [ClassroomController::class, 'myClassroom'])->middlewa
 Route::get('/miambientehistorial/{id}', [ClassroomController::class, 'historyAmbient'])->middleware('auth');
 Route::get('/ambiente/{id}', [ClassroomController::class, 'show'])->middleware('auth');
 Route::post('/ambiente', [ClassroomController::class, 'store']);
+
 
 Route::get('/setting', [UserController::class,'setting'])->middleware('auth')->name('setting');
 Route::post('/changeEmail',[UserController::class, 'updateInformation'])->middleware('auth');
@@ -60,6 +63,8 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
     Route::put('/user/{id}', [UserController::class,'update'])->middleware('auth');
     Route::post('/changeStateUser',[UserController::class, 'changeStateUser'])->middleware('auth');
     Route::post('/uploadData',[ImportController::class, 'store'])->middleware('auth')->name('uploadData');
+    Route::post('/limpiarAmbiente', [UserController::class, 'cleanClassroom'])->middleware('auth')->name('classroomClean');
+    Route::post('/quitarambiente', [UserController::class, 'removeClassroom'])->middleware('auth')->name('classroomRemove');
 });
 
 Route::get('/dashboard', function () {

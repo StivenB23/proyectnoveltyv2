@@ -1,16 +1,22 @@
 @extends('layout.dashboardLayout')
 @section('content')
     <div class="table-responsive rounded bg-white">
-        <a href="{{ route('formUser') }}" class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2">
+        <a href="{{ route('formUser') }}" class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2"
+            title="Añadir Usuario">
             <i class="mdi mdi-account-plus fs-4"></i>
         </a>
         <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon mt-2" data-bs-toggle="modal"
-            data-bs-target="#registerclassroom">
+            data-bs-target="#registerclassroom" title="Añadir Ambiente">
             <i class="mdi mdi-chair-school"></i><i class="mdi mdi-plus"></i>
         </button>
         <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon mt-2" data-bs-toggle="modal"
-            data-bs-target="#uploadData"><i class="mdi mdi-upload"></i>
+            data-bs-target="#uploadData" title="Cargar Información"><i class="mdi mdi-upload"></i>
         </button>
+        <form class="d-inline" action="{{ route('classroomClean') }}" method="POST">
+            @csrf
+            <button class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-1" title="Resetear Ambientes"><i
+                    class="mdi mdi-restore fs-4"></i></button>
+        </form>
         <div class="modal fade" id="uploadData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-mg">
                 <div class="modal-content">
@@ -32,12 +38,13 @@
                             </div>
                             <div class="row ">
                                 <div class="col form-group">
-                                    
+
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Cargar Archivo(csv):<b class="text-danger">*</b></label>
+                                        <label for="" class="form-label">Cargar Archivo(csv):<b
+                                                class="text-danger">*</b></label>
                                         <div class="form-group">
-                                            <input type="file" multiple id="file-ip-1" accept=""
-                                                name="file" class="file-upload-default">
+                                            <input type="file" multiple id="file-ip-1" accept="" name="file"
+                                                class="file-upload-default">
                                             <div class="input-group col-xs-12">
                                                 <input type="text" class="form-control file-upload-info" disabled
                                                     placeholder="Cargar Archivo">
@@ -72,9 +79,10 @@
                             @csrf
                             <div class="row ">
                                 <div class="col form-group">
-                                    <label for="exampleInputUsername1">Número de ambiente:<b class="text-danger">*</b></label>
+                                    <label for="exampleInputUsername1">Número de ambiente:<b
+                                            class="text-danger">*</b></label>
                                     <input type="numeric" class="form-control" name="classroom" id="exampleInputUsername1"
-                                        placeholder="501, 402..." required >
+                                        placeholder="501, 402..." required>
                                     @error('classroom')
                                         <small>{{ $message }}</small>
                                     @enderror
@@ -90,6 +98,7 @@
                 </div>
             </div>
         </div>
+
         <table class="table table-light table-hover	 table-borderless align-middle" id="myTable">
             <thead>
                 <tr>
@@ -99,7 +108,7 @@
                     <th>Correo</th>
                     <th>Rol</th>
                     <th>Ambiente</th>
-                    <th colspan="2">Acciones</th>
+                    <th colspan="3">Acciones</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -121,8 +130,53 @@
                                 @endif
                             @endforeach
                         </td>
+                        <td>
+                            <div class="modal fade" id="quitarclassroom" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-mg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">QUITAR AMBIENTE</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('classroomRemove') }}" method="post" class="forms-sample">
+                                                @csrf
+                                                <div class="row ">
+                                                    <div class="col form-group">
+                                                        <input type="hidden" value="{{ $user->id }}">
+                                                        <label for="exampleInputUsername1">seleccione el ambiente que desea desasignar:<b
+                                                                class="text-danger">*</b></label><br>
+                                                                @foreach ($classrooms as $classroom)
+                                                                @if ($user->id == $classroom->user_id)
+                                                                    <input type="radio" name="classroom" value="{{$classroom->id}}">{{ $classroom->number_classroom }} <br>
+                                                                @endif
+                                                            @endforeach
+
+                                                        @error('classroom')
+                                                            <small>{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="block-inline mx-auto">
+
+                                                    <button type="submit"
+                                                        class="block btn btn-gradient-primary ">Remover Ambiente</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon mt-2"
+                                data-bs-toggle="modal" data-bs-target="#quitarclassroom" title="Quitar Ambiente">
+                                <i class="mdi mdi-chair-school"></i><i class="mdi mdi-minus"></i>
+                            </button>
+                        </td>
                         <td scope="row">
-                            <form class="col-5" action="/restaurarcontraseña" method="post">
+                            <form class="" action="/restaurarcontraseña" method="post">
                                 @csrf
                                 <input type="hidden" name="document" value="{{ $user->number_document }}">
                                 <input type="hidden" name="email" value="{{ $user->email }}">

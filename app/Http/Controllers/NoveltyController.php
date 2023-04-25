@@ -11,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -24,7 +25,8 @@ class NoveltyController extends Controller
      */
     public function index()
     {
-        //
+        $novelties = Novelty::all();
+        return view('auth.novelties')->with("novelties",$novelties);
     }
 
     /**
@@ -60,7 +62,7 @@ class NoveltyController extends Controller
         $this->validate($request, $rules, $messages);
         $description = html_entity_decode($request->description);
         // dd($date->toDateTimeLocalString());
-            $novelty = Novelty::create(['date_novelty' => $date->toDateTimeLocalString(), "description" => $description, "user_id" => Auth::user()->id, "state" => "pendiente","details_procces"=>"g", "classroom_id" => $request->classroom]);
+            $novelty = Novelty::create(['date_novelty' => $date->toDateTimeLocalString(), "description" => $description, "user_id" => Auth::user()->id, "state" => "pendiente","details_procces"=>null, "classroom_id" => $request->classroom]);
        
        
         // dd($novelty);
@@ -119,7 +121,6 @@ class NoveltyController extends Controller
     public function update(Request $request)
     {
         setlocale(LC_ALL, 'esp');
-
         $date = now();
         $novelty = Novelty::find($request->id);
         if ($request->state == "hecho") {
@@ -132,6 +133,27 @@ class NoveltyController extends Controller
         $novelty->save();
         Alert::success('Novedad Actualizada Exitosamente', "El estado actual de la novedad es $request->state.");
         return redirect()->route('myAmbient');
+    }
+
+    /**
+     * Clean table novelties
+     *
+     * @param  \App\Models\Novelty  $novelty
+     * @return \Illuminate\Http\Response
+     */
+    public function cleanNovelty()
+    {
+        try {
+            $image = Image::truncate();
+            DB::statement("SET foreign_key_checks=0");
+            $novelty =  Novelty::truncate();
+            DB::statement("SET foreign_key_checks=1");
+            Alert::success('Limpiando Novedades', "Las novedades han sido limpiadas exitosamente");
+        } catch (\Throwable $th) {
+            Alert::success('Error', "Se ha presentado un error al limpiar novedades");
+            // throw $th;
+        }
+        return redirect()->route('novelties');
     }
 
     /**

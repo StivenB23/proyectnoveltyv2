@@ -6,6 +6,7 @@ use App\Models\Classroom;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -188,6 +189,30 @@ class UserController extends Controller
     public function setting()
     {
         return view('auth.settings');
+    }
+
+    public function cleanClassroom()
+    {
+        try {
+            DB::statement("SET foreign_key_checks=0");
+            DB::select("UPDATE classrooms SET user_id = null");
+            DB::statement("SET foreign_key_checks=1");
+            Alert::success('Limpieza ambientes', "Los instructores quedaron sin ambiente asignado");
+        } catch (\Throwable $th) {
+            Alert::success('Error', "Se ha presentado un error al limpiar ambientes");
+        }
+        return redirect()->route('users');
+    }
+
+    public function removeClassroom(Request $request)
+    {
+        // $id = $request->id;
+        $classroomId = $request->classroom;
+        $classroom =  Classroom::find($classroomId);
+        $classroom->user_id = null;
+        $classroom->save();
+        Alert::success('Ambiente Removido', "El ambiente fue removido exitosamente");
+        return redirect()->route('users');
     }
 
     /**

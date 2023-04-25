@@ -92,8 +92,8 @@
                                 <!--change to offline or busy as needed-->
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
-                                <span class="font-weight-bold mb-2">{{ Auth::user()->name }}
-                                    {{ Auth::user()->lastname }}</span>
+                                <span class="font-weight-bold mb-2">{{ stristr(Auth::user()->name," ",true) }}
+                                    {{ stristr(Auth::user()->lastname," ",true) }}</span>
                                 <span class="text-secondary text-small">{{ Auth::user()->role }}</span>
                             </div>
                         </a>
@@ -119,7 +119,7 @@
                                         Novedad</a></li>
                                 @if (Auth::user()->role === 'administrador')
                                     <li class="nav-item"> <a class="nav-link"
-                                            href="pages/ui-features/typography.html">Listar Novedades</a></li>
+                                            href="{{ route('novelties') }}">Listar Novedades</a></li>
                                 @endif
                             </ul>
                         </div>
@@ -193,7 +193,7 @@
     <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
     <!-- Custom js for this page -->
     <!--Datatable Js-->
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.js"
+    <script src="{{ asset('assets/js/dataTables.js') }}"
         type="text/javascript"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/file-upload.js') }}"></script>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('date_novelty');
             $table->dateTime('date_resolved')->nullable();
             $table->string('description');
-            $table->string('details_procces');
+            $table->string('details_procces')->nullable();
             $table->string('state');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('classroom_id')->constrained();

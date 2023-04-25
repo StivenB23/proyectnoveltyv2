@@ -25,7 +25,7 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label>Evidencia Fotográfica.(Minimo una imagen y maximo tres)</label>
-                                <input type="file" multiple id="file-ip-1" accept="image/*" capture="camera"
+                                <input type="file" multiple id="file-ip-1" accept="image/*" 
                                     name="files[]" class="file-upload-default">
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled
