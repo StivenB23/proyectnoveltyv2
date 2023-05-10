@@ -27,7 +27,7 @@
         <img src="https://cdn.superaficionados.com/imagenes/1-kimetsu-no-yaiba-personajes-tanjiro-kamado-1-cke.jpg" alt="">
         <p>Su cuenta en asisquick fue creada de forma exitosa, para ingresar a la plataforma tenga en cuenta que su
             usuario y contraseña son su número de documento.</p>
-        <a href="{{ route('/') }}">Iniciar sesión</a>
+        <a href="{{ route('/login') }}">Iniciar sesión</a>
     </main>
 </body>
 
