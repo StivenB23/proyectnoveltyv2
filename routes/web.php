@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\ComputerController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoveltyController;
@@ -41,6 +42,8 @@ Route::post('/Registro', [UserController::class, 'store'])->middleware('auth')->
 
 Route::get('/Novedades', [NoveltyController::class, 'index'])->middleware('auth')->name('novelties');
 Route::get('/Novedad', [NoveltyController::class, 'create'])->middleware('auth')->name('novelty');
+Route::get('/NovedadEquipo', [NoveltyController::class, 'createNoveltyComputer'])->middleware('auth')->name('noveltycomputer');
+Route::post('/NovedadEquipo', [NoveltyController::class, 'storeNoveltyComputer'])->middleware('auth')->name('noveltycomputer');
 Route::post('/Novedad', [NoveltyController::class, 'store'])->name('novelty');
 Route::post('/limpiarNovedades', [NoveltyController::class, 'cleanNovelty'])->middleware('auth')->name('noveltyClean');
 Route::put('/novedad', [NoveltyController::class,'update']);
@@ -55,6 +58,8 @@ Route::post('/ambiente', [ClassroomController::class, 'store']);
 
 Route::get('/setting', [UserController::class,'setting'])->middleware('auth')->name('setting');
 Route::post('/changeEmail',[UserController::class, 'updateInformation'])->middleware('auth');
+
+Route::get('/equipos', [ComputerController::class, 'index' ])->middleware('auth')->name('listcomputers');
 
 // middleware que restringe que permite el acceso a administrador
 Route::middleware(['auth','validate-role-user:administrador'])->group(function(){

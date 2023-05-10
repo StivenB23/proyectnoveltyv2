@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\SendEmail;
 use App\Mail\NotificationInstructor;
 use App\Models\Classroom;
+use App\Models\Computer;
 use App\Models\Image;
 use App\Models\Novelty;
 use App\Models\User;
@@ -26,7 +27,7 @@ class NoveltyController extends Controller
     public function index()
     {
         $novelties = Novelty::all();
-        return view('auth.novelties')->with("novelties",$novelties);
+        return view('auth.novelties')->with("novelties", $novelties);
     }
 
     /**
@@ -40,6 +41,11 @@ class NoveltyController extends Controller
         return view('auth.formNovelty')->with("classrooms", $classrooms);
     }
 
+    public function createNoveltyComputer()
+    {
+        return view("auth.formNoveltyComputer");
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,7 +57,6 @@ class NoveltyController extends Controller
         setlocale(LC_ALL, 'esp');
         $date = now();
         $rules = [
-            // "file" => "required",
             "classroom" => "required",
             "description" => "required",
         ];
@@ -61,11 +66,9 @@ class NoveltyController extends Controller
         ];
         $this->validate($request, $rules, $messages);
         $description = html_entity_decode($request->description);
-        // dd($date->toDateTimeLocalString());
-            $novelty = Novelty::create(['date_novelty' => $date->toDateTimeLocalString(), "description" => $description, "user_id" => Auth::user()->id, "state" => "pendiente","details_procces"=>null, "classroom_id" => $request->classroom]);
-       
-       
-        // dd($novelty);
+        $novelty = Novelty::create(['date_novelty' => $date->toDateTimeLocalString(), "type" => "ambiente", "description" => $description, "user_id" => Auth::user()->id, "state" => "pendiente", "details_procces" => null, "computer_id" => null, "classroom_id" => $request->classroom]);
+
+        // Guardar imagenes
         $arreglo = (array)$request->only("files");
         for ($i = 0; $i < count($arreglo["files"]); $i++) {
             $imageObject = new Image();
@@ -76,17 +79,43 @@ class NoveltyController extends Controller
             $imageObject->save();
         }
         try {
-            $emailObject = Classroom::join('users','users.id','=','classrooms.user_id')
-            ->where('classrooms.id', $request->classroom)
-            ->get('users.email');
+            $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
+                ->where('classrooms.id', $request->classroom)
+                ->get('users.email');
             $email = new NotificationInstructor(now()->toDateTimeString(), $description);
             Mail::to($emailObject[0]->email)->send($email);
-            Alert::success('Novedad Creada','La novedad fue creada exitosamente y el cuentadante fue notificado');
+            Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
         } catch (\Throwable $th) {
             //throw $th;
         }
-        
+
         return redirect()->route('novelty');
+    }
+
+    public function storeNoveltyComputer(Request $request)
+    {
+        setlocale(LC_ALL, 'esp');
+        $date = now();
+        $computer = Computer::where("code", $request->only("code"))->get(['id', 'code', 'classroom_id']);
+        if ($computer->isEmpty()) {
+            Alert::error('Creación fallida', "El código ingresado no es valido.");
+            return back();
+        }
+        $description = html_entity_decode($request->description);
+        $novelty = Novelty::create(['date_novelty' => $date->toDateTimeLocalString(), "type" => "equipo", "description" => $description, "user_id" => Auth::user()->id, "computer_id" => $computer[0]->id, "state" => "pendiente", "details_procces" => null, "classroom_id" => $computer[0]->classroom_id]);
+
+        try {
+            $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
+                ->where('classrooms.id', $computer[0]->classroom_id)
+                ->get('users.email');
+            $email = new NotificationInstructor(now()->toDateTimeString(), $description);
+            Mail::to($emailObject[0]->email)->send($email);
+            Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -128,7 +157,7 @@ class NoveltyController extends Controller
             $novelty->date_resolved =  $date->toDateTimeLocalString();
         } else {
             $novelty->state = $request->state;
-            $novelty->details_procces = $request->description == null ? null:$request->description;
+            $novelty->details_procces = $request->description == null ? null : $request->description;
         }
         $novelty->save();
         Alert::success('Novedad Actualizada Exitosamente', "El estado actual de la novedad es $request->state.");

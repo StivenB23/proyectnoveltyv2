@@ -18,10 +18,12 @@ return new class extends Migration
             $table->dateTime('date_novelty');
             $table->dateTime('date_resolved')->nullable();
             $table->string('description');
+            $table->string('type', 20);
             $table->string('details_procces')->nullable();
-            $table->string('state');
+            $table->string('state', 20);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('classroom_id')->constrained();
+            $table->foreignId('computer_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

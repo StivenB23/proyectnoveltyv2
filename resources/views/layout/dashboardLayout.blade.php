@@ -92,8 +92,8 @@
                                 <!--change to offline or busy as needed-->
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
-                                <span class="font-weight-bold mb-2">{{ stristr(Auth::user()->name," ",true) }}
-                                    {{ stristr(Auth::user()->lastname," ",true) }}</span>
+                                <span class="font-weight-bold mb-2">{{ stristr(Auth::user()->name, ' ', true) }}
+                                    {{ stristr(Auth::user()->lastname, ' ', true) }}</span>
                                 <span class="text-secondary text-small">{{ Auth::user()->role }}</span>
                             </div>
                         </a>
@@ -115,11 +115,13 @@
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link" href="{{ route('myAmbient') }}">Mi
                                         ambiente</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('novelty') }}">Registrar
-                                        Novedad</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('novelty') }}">
+                                        Novedad Ambiente</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('noveltycomputer') }}">
+                                        Novedad Equipo</a></li>
                                 @if (Auth::user()->role === 'administrador')
-                                    <li class="nav-item"> <a class="nav-link"
-                                            href="{{ route('novelties') }}">Listar Novedades</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('novelties') }}">Listar
+                                            Novedades</a></li>
                                 @endif
                             </ul>
                         </div>
@@ -148,6 +150,14 @@
                             <i class="mdi mdi-chair-school menu-icon"></i>
                         </a>
                     </li>
+                    @if (Auth::user()->role === 'administrador')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('listcomputers') }}">
+                                <span class="menu-title">Equipos</span>
+                                <i class="mdi mdi-desktop-classic menu-icon"></i>
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('setting') }}">
                             <span class="menu-title">Configuración</span>
@@ -171,7 +181,8 @@
         </div>
     </div>
     <footer>
-      <p class="text-center "> <span class="text-primary fs-5" >&copy;</span> 2023 SENA todos los derechos reservados</p>
+        <p class="text-center "> <span class="text-primary fs-5">&copy;</span> 2023 SENA todos los derechos reservados
+        </p>
     </footer>
     @include('sweetalert::alert')
     <!-- End custom js for this page -->
@@ -191,10 +202,10 @@
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     <script src="{{ asset('assets/js/todo.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+    <script src="{{ asset('assets/js/html5-qrcode.js') }}"></script>
     <!-- Custom js for this page -->
     <!--Datatable Js-->
-    <script src="{{ asset('assets/js/dataTables.js') }}"
-        type="text/javascript"></script>
+    <script src="{{ asset('assets/js/dataTables.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/file-upload.js') }}"></script>
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>

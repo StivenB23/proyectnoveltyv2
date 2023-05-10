@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotificationCreateUser;
 use App\Models\Classroom;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -64,15 +66,16 @@ class UserController extends Controller
         $this->validate($request, $rules, $messages);
 
         $user = User::create([
-                "name" => $request->name,
-                "lastname" => $request->lastname,
-                "number_document" => $request->number_document,
-                "email" => $request->email,
-                "role" => "instructor",
-                "state" => true,
-                "password" => Hash::make($request->number_document)]);
+            "name" => $request->name,
+            "lastname" => $request->lastname,
+            "number_document" => $request->number_document,
+            "email" => $request->email,
+            "role" => "instructor",
+            "state" => true,
+            "password" => Hash::make($request->number_document)
+        ]);
         $arreglo = (array)$request->only("classrooms");
-        for ($index=0; $index < count($arreglo['classrooms']) ; $index++) {  
+        for ($index = 0; $index < count($arreglo['classrooms']); $index++) {
             if ($arreglo['classrooms'][$index] == "NULL") {
                 break;
             } else {
@@ -83,8 +86,10 @@ class UserController extends Controller
                 }
             }
         }
+        $email = new NotificationCreateUser();
+        Mail::to($request->email)->send($email);
 
-        Alert::success('Usuario Creada Exitosamente',"El usuario $request->name $request->lastname fue creado exitosamente.");
+        Alert::success('Usuario Creada Exitosamente', "El usuario $request->name $request->lastname fue creado exitosamente.");
         return redirect()->route('formUser');
     }
 
@@ -107,9 +112,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id,['id', 'name','lastname', 'number_document','email']);
-        $classrooms = Classroom::all('id','number_classroom','user_id');
-        return view('auth.detailsUser')->with("classrooms",$classrooms)->with("user",$user);
+        $user = User::find($id, ['id', 'name', 'lastname', 'number_document', 'email']);
+        $classrooms = Classroom::all('id', 'number_classroom', 'user_id');
+        return view('auth.detailsUser')->with("classrooms", $classrooms)->with("user", $user);
     }
 
     /**
@@ -133,7 +138,7 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $arreglo = (array)$request->only("classrooms");
-        for ($index=0; $index < count($arreglo['classrooms']) ; $index++) {  
+        for ($index = 0; $index < count($arreglo['classrooms']); $index++) {
             if ($arreglo['classrooms'][$index] == "NULL") {
                 break;
             } else {
@@ -146,7 +151,7 @@ class UserController extends Controller
         }
         // $user->classroom_id  = $request->classroom == "NULL" ? null : $request->classroom;
         $user->save();
-        Alert::success('Usuario Actualizado Exitosamente',"El usuario $request->name $request->lastname fue actualizado exitosamente.");
+        Alert::success('Usuario Actualizado Exitosamente', "El usuario $request->name $request->lastname fue actualizado exitosamente.");
         return redirect()->route('dashboard');
     }
 
@@ -159,11 +164,11 @@ class UserController extends Controller
                 $user->password = Hash::make($request->password);
             }
             $user->save();
-            Alert::success('Cambios exitosos',"Los cambios fueron actualizados exitosamente");
-            return redirect()->route('setting'); 
+            Alert::success('Cambios exitosos', "Los cambios fueron actualizados exitosamente");
+            return redirect()->route('setting');
         } catch (Exception $th) {
-            Alert::error('ERROR',"Ponganse en contacto con el equipo técnico");
-            return redirect()->route('setting'); 
+            Alert::error('ERROR', "Ponganse en contacto con el equipo técnico");
+            return redirect()->route('setting');
         }
     }
 
@@ -173,17 +178,16 @@ class UserController extends Controller
             $user = User::find($request->id);
             $user->state = !$user->state;
             $user->save();
-            Alert::success('Estado Actualizado Exitosamente',"El estado del usuario $user->name $user->lastname fue cambiado .");
+            Alert::success('Estado Actualizado Exitosamente', "El estado del usuario $user->name $user->lastname fue cambiado .");
             return redirect()->route('users');
         } catch (Exception $th) {
-            Alert::error('ERROR',"Ponganse en contacto con el equipo técnico");
+            Alert::error('ERROR', "Ponganse en contacto con el equipo técnico");
             return redirect()->route('users');
         }
     }
 
     public function resetPassword()
     {
-        
     }
 
     public function setting()

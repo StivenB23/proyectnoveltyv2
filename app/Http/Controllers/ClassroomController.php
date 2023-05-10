@@ -63,10 +63,10 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        // $classroom = Classroom::where('id', '=', $id)->get(['id', 'number_classroom','user_id']);
-        $classroom = Novelty::join('images','images.novelty_id','=','novelties.id')
-        ->where('novelties.classroom_id',$id)
-        ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
+        $classroom = Classroom::where('id', '=', $id)->get(['id', 'number_classroom','user_id']);
+        // $classroom = Novelty::join('images','images.novelty_id','=','novelties.id')
+        // ->where('novelties.classroom_id',$id)
+        // ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
         $history = Classroom::find($id)->novelties;
         
 
@@ -82,10 +82,10 @@ class ClassroomController extends Controller
 
     public function historyAmbient($id)
     {
-    //    $history = Classroom::find($id)->novelties;
-       $history  = Novelty::join('images','images.novelty_id','=','novelties.id')
-        ->where('novelties.classroom_id',$id)
-        ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
+       $history = Classroom::find($id)->novelties;
+    //    $history  = Novelty::join('images','images.novelty_id','=','novelties.id')
+    //     ->where('novelties.classroom_id',$id)
+    //     ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
         // dd($history);
        return view('auth.myClassroomHistory')->with('history',$history);
     }

@@ -124,14 +124,12 @@
                         <td scope="row">{{ $user->email }}</td>
                         <td scope="row">{{ $user->role }}</td>
                         <td scope="row">
-                            @foreach ($classrooms as $classroom)
-                                @if ($user->id == $classroom->user_id)
-                                    {{ $classroom->number_classroom }}
-                                @endif
+                            @foreach ($user->classrooms as $classroom)
+                                {{ $classroom->number_classroom }}
                             @endforeach
                         </td>
                         <td>
-                            <div class="modal fade" id="quitarclassroom" tabindex="-1"
+                            <div class="modal fade" id="quitarclassroom-{{ $user->id }}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-mg">
                                     <div class="modal-content">
@@ -141,39 +139,40 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('classroomRemove') }}" method="post" class="forms-sample">
+                                            <form action="{{ route('classroomRemove') }}" method="post"
+                                                class="forms-sample">
                                                 @csrf
                                                 <div class="row ">
                                                     <div class="col form-group">
                                                         <input type="hidden" value="{{ $user->id }}">
-                                                        <label for="exampleInputUsername1">seleccione el ambiente que desea desasignar:<b
-                                                                class="text-danger">*</b></label><br>
-                                                                @foreach ($classrooms as $classroom)
-                                                                @if ($user->id == $classroom->user_id)
-                                                                    <input type="radio" name="classroom" value="{{$classroom->id}}">{{ $classroom->number_classroom }} <br>
-                                                                @endif
-                                                            @endforeach
-
+                                                        <label for="exampleInputUsername1">seleccione el ambiente que desea
+                                                            desasignar:<b class="text-danger">*</b></label><br>
+                                                        @foreach ($user->classrooms as $classroom)
+                                                            <input type="radio" name="classroom"
+                                                                value="{{ $classroom->id }}">{{ $classroom->number_classroom }}
+                                                            <br>
+                                                        @endforeach
                                                         @error('classroom')
                                                             <small>{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                 </div>
-
                                                 <div class="block-inline mx-auto">
-
-                                                    <button type="submit"
-                                                        class="block btn btn-gradient-primary ">Remover Ambiente</button>
+                                                    <button type="submit" class="block btn btn-gradient-primary ">Remover
+                                                        Ambiente</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon mt-2"
-                                data-bs-toggle="modal" data-bs-target="#quitarclassroom" title="Quitar Ambiente">
-                                <i class="mdi mdi-chair-school"></i><i class="mdi mdi-minus"></i>
-                            </button>
+                            @if (!$user->classrooms->isEmpty())
+                                <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon mt-2"
+                                    data-bs-toggle="modal" data-bs-target="#quitarclassroom-{{ $user->id }}"
+                                    title="Quitar Ambiente">
+                                    <i class="mdi mdi-chair-school"></i><i class="mdi mdi-minus"></i>
+                                </button>
+                            @endif
                         </td>
                         <td scope="row">
                             <form class="" action="/restaurarcontraseña" method="post">

@@ -17,12 +17,11 @@
                                             setlocale(LC_ALL, 'esp');
                                             $dateFriendly = \Carbon\Carbon::parse(strtotime($data->date_novelty))->diffForHumans();
                                             $dateFormat = \Carbon\Carbon::parse(strtotime($data->date_novelty))->formatLocalized('%d de %B del %Y');
+                                            $dateFormatResolved = \Carbon\Carbon::parse(strtotime($data->date_resolved))->formatLocalized('%d de %B del %Y');
                                         @endphp
                                         <span class=" card-title">{{ $dateFriendly }}</span>
                                         @switch($data->state)
                                             @case('pendiente')
-                                                {{-- <span class="card-title text-warning text-center text-white p-1">Pendiente</span> --}}
-
                                                 <span class="card-title text-warning text-center p-1">Pendiente</span>
                                             @break
 
@@ -61,17 +60,24 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    @php
-                                                        // $date = date("j F, Y",strtotime($data->date_novelty))
-                                                    @endphp
                                                     <div class="row">
                                                         <div class="col-12 overflow-auto">
-                                                            <img src="{{ asset('storage/NoveltyImage/' . $classroom[0]->image) }}"
-                                                                width="300" alt="">
+                                                            @if ($data->type == 'ambiente')
+                                                                @foreach ($data->images as $image)
+                                                                    <img src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                                        width="300" alt="">
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                         <div class="col-12">
 
-                                                            <h4>{{ $dateFormat }}</h4>
+                                                            <h4>Fecha Novedad: {{ $dateFormat }}</h4>
+                                                            @if ($data->date_resolved !== null)
+                                                                <h4>Resuelto el {{ $dateFormatResolved }}</h4>
+                                                            @endif
+                                                            <p>Tipo Novedad: {{ $data->type }}</p>
+                                                            <p>Estado: {{ $data->state }}</p>
+                                                            <p><b>Descripción:</b></p>
                                                             {!! $data->description !!}
                                                         </div>
                                                     </div>
@@ -79,7 +85,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <a href="#" class="card-link">Another link</a> --}}
                                 </div>
                             </div>
                         @endforeach
@@ -93,6 +98,7 @@
                                 $dateComparation = date('Y-m-d', strtotime($today . '- 15 days'));
                                 $dateFriendly = \Carbon\Carbon::parse(strtotime($data->date_novelty))->diffForHumans();
                                 $dateFormat = \Carbon\Carbon::parse(strtotime($data->date_novelty))->formatLocalized('%d de %B del %Y');
+                                $dateFormatResolved = \Carbon\Carbon::parse(strtotime($data->date_resolved))->formatLocalized('%d de %B del %Y');
                             @endphp
                             @if ($data->date_novelty > $dateComparation)
                                 <div class="card" style="width: 18rem;">
@@ -101,8 +107,6 @@
                                             <span class=" card-title" id="date-novelty">{{ $dateFriendly }}</span>
                                             @switch($data->state)
                                                 @case('pendiente')
-                                                    {{-- <span class="card-title text-warning text-center text-white p-1">Pendiente</span> --}}
-
                                                     <span class="card-title text-warning text-center p-1">Pendiente</span>
                                                 @break
 
@@ -140,12 +144,21 @@
                                                     <div class="modal-body">
                                                         <div class="row">
                                                             <div class="col-12 overflow-auto">
-                                                                <img src="{{ asset('storage/NoveltyImage/' . $classroom[0]->image) }}"
-                                                                    width="300" alt="">
+                                                                @if ($data->type == 'ambiente')
+                                                                    @foreach ($data->images as $image)
+                                                                        <img src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                                            width="300" alt="">
+                                                                    @endforeach
+                                                                @endif
                                                             </div>
                                                             <div class="col-12">
-
-                                                                <h4>{{ $dateFormat }}</h4>
+                                                                <h4>Fecha Novedad: {{ $dateFormat }}</h4>
+                                                                @if ($data->date_resolved !== null)
+                                                                    <h4>Resuelto el {{ $dateFormatResolved }}</h4>
+                                                                @endif
+                                                                <p>Tipo Novedad: {{ $data->type }}</p>
+                                                                <p>Estado: {{ $data->state }}</p>
+                                                                <p><b>Descripción:</b></p>
                                                                 {!! $data->description !!}
                                                             </div>
                                                         </div>

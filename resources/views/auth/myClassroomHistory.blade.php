@@ -1,8 +1,8 @@
 @extends('layout.dashboardLayout')
 @section('content')
-    <div class="d-flex">
+    <div class="d-flex gap-2 flex-wrap">
         @foreach ($history as $data)
-            <div class="card" style="width: 18rem;">
+            <div class="card h-auto" style="width: 18rem;">
                 <div class="card-body">
                     <div class=" d-flex justify-content-between">
                         @php
@@ -56,11 +56,11 @@
 
                                 @case('en proceso')
                                     <input type="hidden" name="state" value="hecho">
-                                    <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-gradient-info btn-rounded btn-icon mx-2" data-bs-toggle="modal"
                                         data-bs-target="#novelty-{{ $data->id }}">
                                         <i class="mdi mdi-eye"></i>
-                                    </button>
-                                    <button type="submit" class="btn btn-gradient-success btn-rounded btn-icon">
+                                    </button> 
+                                    <button type="submit" class="btn btn-gradient-success btn-rounded btn-icon mx-2">
                                         <i class="mdi mdi-check-circle-outline fs-4"></i>
                                     </button>
                                 @break
@@ -85,17 +85,25 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-12 overflow-auto">
-                                            <img src="{{ asset('storage/NoveltyImage/' . $data->image) }}" width="300"
-                                                alt="">
-                                        </div>
+                                        @if ($data->type == 'ambiente')
+                                            <div class="col-12 overflow-auto">
+                                                @foreach ($data->images as $image)
+                                                    <img class="my-1" src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                        width="300" alt="">
+                                                @endforeach
+                                            </div>
+                                        @endif
                                         <div class="col-12">
-
                                             <h4>Fecha Novedad: {{ $dateFormat }}</h4>
                                             @if ($data->date_resolved !== null)
                                                 <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                             @endif
-                                            <p><b>Descripción Proceso: <br> {{ $data->details_procces }}</b></p>
+                                            @if ($data->type == 'equipo')
+                                                <p>Equipo:<b>{{ $data->computer->number_computer }}</b></p>
+                                            @endif
+                                            <p>Ambiente:<b>{{ $data->classroom->number_classroom }}</b></p>
+                                            <p><b>Descripción Proceso:</b><br> {{ $data->details_procces }}</p>
+                                            <p><b>Descripción novedad:</b></p>
                                             {!! $data->description !!}
                                         </div>
                                     </div>

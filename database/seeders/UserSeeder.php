@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
     {
         $user = new User();
         $user->number_document = '1106769976';
-        $user->name = 'Admin';
-        $user->lastname = 'Sena';
+        $user->name = 'Admin ';
+        $user->lastname = 'Sena ';
         $user->email = 'stiven@gmail.com';
         $user->password = Hash::make('12345678');
         $user->role = 'administrador';
@@ -28,8 +28,8 @@ class UserSeeder extends Seeder
        
         $user = new User();
         $user->number_document = '1106766978';
-        $user->name = 'Andres';
-        $user->lastname = 'Doe';
+        $user->name = 'Andres Felipe';
+        $user->lastname = 'Doe Meza';
         $user->email = 'john@gmail.com';
         $user->password = Hash::make('12345678');
         $user->role = 'instructor';
