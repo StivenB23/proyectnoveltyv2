@@ -20,10 +20,10 @@
                 @foreach ($computers as $computer)
                     <tr>
                         <td scope="row">
-                            {{ $computer->code }}
+                            <a href="/computer/{{ $computer->id }}">{{ $computer->code }}</a>
                         </td>
                         <td scope="row">{{ $computer->number_computer }}</td>
-                        <td scope="row">{{ $computer->classroom->number_classroom == null ? ' ' : $computer->classroom->number_classroom}}</td>
+                        <td scope="row">{{ $computer->classroom->number_classroom == null ? 'No asignado' : $computer->classroom->number_classroom}}</td>
                         
                     </tr>
                 @endforeach

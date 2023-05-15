@@ -34,6 +34,7 @@
                                     <option disabled selected>Seleccionar</option>
                                     <option value="instructor">Instructores</option>
                                     <option value="classroom">Ambientes</option>
+                                    <option value="computers">Equipos</option>
                                 </select>
                             </div>
                             <div class="row ">
@@ -50,7 +51,7 @@
                                                     placeholder="Cargar Archivo">
                                                 <span class="input-group-append">
                                                     <button class="file-upload-browse btn btn-gradient-primary"
-                                                        type="button">Cargar</button>
+                                                        type="button">Cargar Archivo</button>
                                                 </span>
                                             </div>
                                         </div>
@@ -106,6 +107,7 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Correo</th>
+                    <th>Estado</th>
                     <th>Rol</th>
                     <th>Ambiente</th>
                     <th colspan="3">Acciones</th>
@@ -122,6 +124,14 @@
                         <td scope="row">{{ $user->name }}</td>
                         <td scope="row">{{ $user->lastname }}</td>
                         <td scope="row">{{ $user->email }}</td>
+                        @switch($user->state)
+                            @case(1)
+                                <td scope="row">Activo</td>
+                            @break
+
+                            @default
+                                <td scope="row">Inactivo</td>
+                        @endswitch
                         <td scope="row">{{ $user->role }}</td>
                         <td scope="row">
                             @foreach ($user->classrooms as $classroom)

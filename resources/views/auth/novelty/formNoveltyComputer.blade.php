@@ -11,7 +11,7 @@
                             <div class="form-group">
                                 <div id="reader"></div>
                                 <input type="number" class="form-control form-control-lg mb-1" name="code"
-                                    id="inputCodeComputer" readonly placeholder="código del equipo"
+                                    id="inputCodeComputer" placeholder="código del equipo"
                                     value="{{ old('code') }}">
                                 <button type="button" id="buttonScann" class="btn btn btn-gradient-primary mb-2" >
                                     Escanear código

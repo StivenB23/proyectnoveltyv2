@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Computer;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class ComputerController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class ComputerController extends Controller
     public function index()
     {
         $computers = Computer::all();
-        return view("auth/computers")->with("computers",$computers);
+        return view("auth/computer/computers")->with("computers",$computers);
     }
 
     /**
@@ -45,9 +47,9 @@ class ComputerController extends Controller
      * @param  \App\Models\Computer  $computer
      * @return \Illuminate\Http\Response
      */
-    public function show(Computer $computer)
+    public function show(Request $request)
     {
-        //
+       
     }
 
     /**
@@ -56,9 +58,11 @@ class ComputerController extends Controller
      * @param  \App\Models\Computer  $computer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Computer $computer)
+    public function edit($id)
     {
-        //
+        $computer = Computer::find($id);
+        $classrooms = Classroom::all('id', 'number_classroom', 'user_id');
+        return view('auth/computer.formEditComputer')->with("computer",$computer)->with("classrooms",$classrooms);
     }
 
     /**
@@ -68,9 +72,28 @@ class ComputerController extends Controller
      * @param  \App\Models\Computer  $computer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Computer $computer)
+    public function update(Request $request, $id)
     {
-        //
+        // $rules = [
+        //     "code" => "required",
+        //     "numberComputer" => "required",
+        //     "classroom" => "required"
+        // ];
+        // $this->validate($request, $rules);
+        $computer = Computer::find($id);
+        try {
+            $computer->code = $request->code;
+            $computer->number_computer = $request->numberComputer;
+            $computer->classroom_id = $request->classroom;
+            $computer->save();
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == 1062){
+                Alert::error('Error código duplicado',"El código que ingreso ya esta asignado a otro equipo.");
+                return back();
+            }
+        }
+        return redirect()->route("listcomputers");
     }
 
     /**

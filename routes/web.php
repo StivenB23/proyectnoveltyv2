@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoveltyController;
 use App\Http\Controllers\RecoverPasswordController;
 use App\Http\Controllers\UserController;
+use App\Models\Novelty;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,10 +67,14 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
     Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users');
     Route::get('/user/{id}', [UserController::class,'edit'])->middleware('auth');
     Route::put('/user/{id}', [UserController::class,'update'])->middleware('auth');
+    Route::get('/computer/{id}', [ComputerController::class,'edit'])->middleware('auth');
+    Route::put('/computer/{id}', [ComputerController::class,'update'])->middleware('auth');
     Route::post('/changeStateUser',[UserController::class, 'changeStateUser'])->middleware('auth');
     Route::post('/uploadData',[ImportController::class, 'store'])->middleware('auth')->name('uploadData');
     Route::post('/limpiarAmbiente', [UserController::class, 'cleanClassroom'])->middleware('auth')->name('classroomClean');
     Route::post('/quitarambiente', [UserController::class, 'removeClassroom'])->middleware('auth')->name('classroomRemove');
+
+    Route::post("/terminarnovedad",[NoveltyController::class, 'finishNovelty']);
 });
 
 Route::get('/dashboard', function () {

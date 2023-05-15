@@ -27,7 +27,7 @@ class NoveltyController extends Controller
     public function index()
     {
         $novelties = Novelty::all();
-        return view('auth.novelties')->with("novelties", $novelties);
+        return view('auth/novelty.novelties')->with("novelties", $novelties);
     }
 
     /**
@@ -38,12 +38,12 @@ class NoveltyController extends Controller
     public function create()
     {
         $classrooms  =  Classroom::all(['id', 'number_classroom']);
-        return view('auth.formNovelty')->with("classrooms", $classrooms);
+        return view('auth/novelty.formNovelty')->with("classrooms", $classrooms);
     }
 
     public function createNoveltyComputer()
     {
-        return view("auth.formNoveltyComputer");
+        return view("auth/novelty.formNoveltyComputer");
     }
 
     /**
@@ -78,16 +78,16 @@ class NoveltyController extends Controller
             $imageObject->novelty_id = $novelty->id;
             $imageObject->save();
         }
-        try {
-            $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
-                ->where('classrooms.id', $request->classroom)
-                ->get('users.email');
-            $email = new NotificationInstructor(now()->toDateTimeString(), $description);
-            Mail::to($emailObject[0]->email)->send($email);
-            Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        // try {
+        //     $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
+        //         ->where('classrooms.id', $request->classroom)
+        //         ->get('users.email');
+        //     $email = new NotificationInstructor(now()->toDateTimeString(), $description);
+        //     Mail::to($emailObject[0]->email)->send($email);
+        //     Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        // }
 
         return redirect()->route('novelty');
     }
@@ -135,9 +135,20 @@ class NoveltyController extends Controller
      * @param  \App\Models\Novelty  $novelty
      * @return \Illuminate\Http\Response
      */
-    public function edit(Novelty $novelty)
+    public function finishNovelty(Request $request)
     {
-        //
+        setlocale(LC_ALL, 'esp');
+        $date = now();
+        try {
+            $novelty = Novelty::find($request->idNovelty);
+            $novelty->date_resolved = $date->toDateTimeLocalString();
+            $novelty->state = "hecho";
+            $novelty->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        Alert::success('Novedad Terminada', 'La novedad fue terminada exitosamente');
+        return redirect()->route("novelties");
     }
 
     /**

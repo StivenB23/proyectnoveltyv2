@@ -18,7 +18,7 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = Classroom::select('id','number_classroom')->orderBy('number_classroom', 'asc')->get();
-        return view('auth.classrooms')->with("classrooms", $classrooms);
+        return view('auth/classroom.classrooms')->with("classrooms", $classrooms);
     }
 
     /**
@@ -70,24 +70,20 @@ class ClassroomController extends Controller
         $history = Classroom::find($id)->novelties;
         
 
-        return view('auth.historyClassroom')->with("classroom", $classroom)->with("history", $history);
+        return view('auth/classroom.historyClassroom')->with("classroom", $classroom)->with("history", $history);
     }
 
     public function myClassroom()
     {
         // $history = Classroom::find(Auth::user()->classroom_id)->novelties;
         $classroom = Classroom::where('user_id',Auth::user()->id)->get(['id','number_classroom']);
-        return view('auth.myClassroom')->with('classroom',$classroom);
+        return view('auth/classroom.myClassroom')->with('classroom',$classroom);
     }
 
     public function historyAmbient($id)
     {
        $history = Classroom::find($id)->novelties;
-    //    $history  = Novelty::join('images','images.novelty_id','=','novelties.id')
-    //     ->where('novelties.classroom_id',$id)
-    //     ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
-        // dd($history);
-       return view('auth.myClassroomHistory')->with('history',$history);
+       return view('auth/classroom.myClassroomHistory')->with('history',$history);
     }
 
     /**

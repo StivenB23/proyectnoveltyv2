@@ -17,11 +17,19 @@ class RecoverPasswordController extends Controller
     }
     public function recover(Request $request)
     {
+        $rules = [
+            "password" => "regex:/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,}$/",
+        ];
+        $messages = [
+            "password.regex" => "La contraseña debe tener minimo 8 caracteres, una minuscula, una mayuscula y un número"
+        ];
+        $this->validate($request, $rules, $messages);
         try {
             $user = User::where('number_document', $request->document)->update(["password"=>Hash::make($request->password)]);
             Alert::success('Contraseña Restaurada exitosamente',"La contraseña fue restaurada exitosamente, intente ingresar al sistema.");
         } catch (\Throwable $th) {
-            echo $th;
+            Alert::error('Restauración Fallida',"Oh, algo salio mal.");
+            return back();
         }
         return redirect()->route('home');
     }

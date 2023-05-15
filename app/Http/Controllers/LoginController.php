@@ -18,10 +18,10 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $messages = [
-            "number_document.required" => "El número de documento es requerido",
+            "number_document.required" => "El número de documento no puede estar vacío",
             "number_document.numeric" => "El número de documento debe ser un número",
             "number_document.max" => "El número de documento no puede tener más de 10 números",
-            "password.required" => "La contraseña es requerida",
+            "password.required" => "La contraseña no puede estar vacia",
             "password.min" => "La contraseña debe tener minimo 8 caracteres"
         ];
         $this->validate($request, ['number_document'=>'required|numeric','password'=>'required|min:8'], $messages);

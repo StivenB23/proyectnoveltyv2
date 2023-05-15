@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\NotificationCreateUser;
 use App\Models\Classroom;
+use App\Models\Computer;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -57,12 +58,21 @@ class ImportController extends Controller
 
 
             }
-            // dd($users);
-            // var_dump($users);
             try {
                 DB::table('users')->insert($users);
             } catch (Exception $e) {
                 dd($e);
+            }
+        } else if ($request->type == "computers") {
+            foreach ($csv as $data) {
+                $classroom = Classroom::where('number_classroom','=', $data['number_classroom'])->get(['id']);
+                Computer::create(
+                    [
+                        "code" => $data['code'],
+                        "number_computer" => $data['number_computer'],
+                        "classroom_id" => $classroom[0]['id']
+                    ]
+                );
             }
         } else {
             foreach ($csv as $data) {

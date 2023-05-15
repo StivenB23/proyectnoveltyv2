@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $classrooms = Classroom::all();
-        return view('auth.users')->with('users', $users)->with('classrooms', $classrooms);
+        return view('auth/user.users')->with('users', $users)->with('classrooms', $classrooms);
     }
 
     /**
@@ -34,7 +34,7 @@ class UserController extends Controller
     public function create()
     {
         $classrooms  =  Classroom::all(['id', 'number_classroom']);
-        return view('auth.formUser')->with("classrooms", $classrooms);
+        return view('auth/user.formUser')->with("classrooms", $classrooms);
     }
 
     /**
@@ -114,7 +114,7 @@ class UserController extends Controller
     {
         $user = User::find($id, ['id', 'name', 'lastname', 'number_document', 'email']);
         $classrooms = Classroom::all('id', 'number_classroom', 'user_id');
-        return view('auth.detailsUser')->with("classrooms", $classrooms)->with("user", $user);
+        return view('auth/user.detailsUser')->with("classrooms", $classrooms)->with("user", $user);
     }
 
     /**
@@ -157,6 +157,15 @@ class UserController extends Controller
 
     public function updateInformation(Request $request)
     {
+        $rules = [
+            "email" => "required",
+            "password" => "nullable|regex:/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,}$/",
+        ];
+        $messages = [
+            "email.required" => "El correo no debe estar vacío si lo desea cambiar",
+            "password.regex" => "La contraseña debe tener minimo 8 caracteres, una minuscula, una mayuscula y un número"
+        ];
+        $this->validate($request, $rules, $messages);
         try {
             $user = User::find($request->id);
             $user->email = $request->email;
@@ -192,7 +201,7 @@ class UserController extends Controller
 
     public function setting()
     {
-        return view('auth.settings');
+        return view('auth/user.settings');
     }
 
     public function cleanClassroom()

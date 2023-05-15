@@ -36,4 +36,9 @@ class Novelty extends Model
     {
         return $this->hasOne("App\Models\Classroom", "id", "classroom_id");
     }
+    public function instructor()
+    {
+        return $this->hasOne("App\Models\User", "id", "user_id");
+    }
+    
 }

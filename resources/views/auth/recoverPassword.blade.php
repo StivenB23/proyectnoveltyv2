@@ -9,12 +9,15 @@
               <h1 class="fw-bold fs-2 text-primary" >RESTAURAR CONTRASEÑA</h1>
               <form action="/recoverpassword" method="post" class="pt-3">
                 @csrf
+
                 <input type="hidden" name="document" value="{{$document}}">
+
                 <div class="form-group">
-                  <input type="number" class="form-control form-control-lg" name="password" id="exampleInputEmail1" placeholder="Número de documento">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg"  id="exampleInputPassword1" placeholder="Contraseña">
+                  <label for="">La contraseña debe tener mínimo 8 caracteres, una minuscula, una mayúscula y un número <b class="text-danger">*</b></label>
+                  <input type="password" class="form-control form-control-lg" name="password"  id="exampleInputPassword1" placeholder="Contraseña">
+                  @error('password')
+                    <small class="text-danger">{{ $message }}</small>
+                  @enderror
                 </div>
                 <div class="mt-3">
                   <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" >Restaurar</button>
