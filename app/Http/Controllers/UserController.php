@@ -6,6 +6,7 @@ use App\Mail\NotificationCreateUser;
 use App\Models\Classroom;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -46,34 +47,40 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            "name" => "required|alpha:ascii",
-            "lastname" => "required|alpha:ascii",
+            "name" => "required|string",
+            "lastname" => "required|string",
             "number_document" => "required|numeric",
             "email" => "required|email:rfc,dns",
-            // "classroom" => "required",
         ];
-        // dd($request->only("classrooms"));
         $messages = [
             "name.required" => "El nombre es obligatorio",
-            "name.alpha" => "El nombre debe tener solo letras",
+            "name.regex" => "El nombre debe tener solo letras",
             "lastname.required" => "El apellido es obligatorio",
-            "lastname.alpha" => "El apellido debe tener solo letras",
+            "lastname.regex" => "El apellido debe tener solo letras",
             "number_document.required" => "El número de documento es obligatorio",
             "number_document.numeric" => "El número de documento debe ser un número",
             "email.required" => "El correo es obligatorio",
             "email.email" => "El correo no es obligatorio",
         ];
         $this->validate($request, $rules, $messages);
-
-        $user = User::create([
-            "name" => $request->name,
-            "lastname" => $request->lastname,
-            "number_document" => $request->number_document,
-            "email" => $request->email,
-            "role" => "instructor",
-            "state" => true,
-            "password" => Hash::make($request->number_document)
-        ]);
+        try {
+            $user = User::create([
+                "name" => $request->name,
+                "lastname" => $request->lastname,
+                "number_document" => $request->number_document,
+                "email" => $request->email,
+                "role" => "instructor",
+                "state" => true,
+                "password" => Hash::make($request->number_document)
+            ]);
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                Alert::error('Error email duplicado', "El email ingresado ya existe.");
+                return back();
+            }
+        }
+        // Asignación de ambientes
         $arreglo = (array)$request->only("classrooms");
         for ($index = 0; $index < count($arreglo['classrooms']); $index++) {
             if ($arreglo['classrooms'][$index] == "NULL") {
@@ -149,7 +156,6 @@ class UserController extends Controller
                 }
             }
         }
-        // $user->classroom_id  = $request->classroom == "NULL" ? null : $request->classroom;
         $user->save();
         Alert::success('Usuario Actualizado Exitosamente', "El usuario $request->name $request->lastname fue actualizado exitosamente.");
         return redirect()->route('dashboard');

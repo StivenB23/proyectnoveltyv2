@@ -19,13 +19,16 @@
                   @enderror
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg"  name="password" id="exampleInputPassword1" placeholder="Contraseña">
+                  <input type="password" class="form-control form-control-lg pl-1"  name="password" id="exampleInputPassword1" placeholder="Contraseña">
                   @error('password')      
                     <small class="text-danger">{{$message}}</small>
                   @enderror
                 </div>
-                <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" >Entrar</button>
+                <div class="my-3 text-center">
+                  <button type="submit" class="w-75  btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" >Entrar</button>
+                </div>
+                <div class="text-center"> 
+                  <a class="mt-2 " href="{{ route('forgotPassword') }}">¿Has olvidado tu contraseña?</a>
                 </div>
               </form>
             </div>

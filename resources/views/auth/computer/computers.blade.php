@@ -2,9 +2,9 @@
 @section('content')
     <div class="table-responsive rounded bg-white">
         <h3 class="mt-1">EQUIPOS</h3>
-        <form action="{{ route('noveltyClean') }}" method="POST">
+        <form action="{{ route('computerClean') }}" method="POST">
             @csrf
-            <button  class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2"><i class="mdi mdi-broom fs-4"></i></button>
+            <button  class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2" title="Limpiar Equipos"><i class="mdi mdi-broom fs-4"></i></button>
         </form>
         <table class="table table-light table-hover	 table-borderless align-middle" id="myTable">
             <thead>

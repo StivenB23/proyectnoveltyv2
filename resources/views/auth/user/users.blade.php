@@ -14,7 +14,7 @@
         </button>
         <form class="d-inline" action="{{ route('classroomClean') }}" method="POST">
             @csrf
-            <button class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-1" title="Resetear Ambientes"><i
+            <button class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-1" data-confirm-delete="true" title="Resetear Ambientes"><i
                     class="mdi mdi-restore fs-4"></i></button>
         </form>
         <div class="modal fade" id="uploadData" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

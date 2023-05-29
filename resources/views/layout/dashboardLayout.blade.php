@@ -203,7 +203,6 @@
     <script src="{{ asset('assets/js/todo.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
     <script src="{{ asset('assets/js/html5-qrcode.js') }}"></script>
-    <!-- Custom js for this page -->
     <!--Datatable Js-->
     <script src="{{ asset('assets/js/dataTables.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>

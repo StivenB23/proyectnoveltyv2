@@ -7,29 +7,33 @@ use App\Models\Classroom;
 use App\Models\Computer;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use League\Csv\CharsetConverter;
+use League\Csv\Writer;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ImportController extends Controller
 {
     public function store(Request $request)
     {
-
+        
         $this->validate($request, ["file" => "required"]);
-
+        
         DB::disableQueryLog();
         DB::connection()->unsetEventDispatcher();
 
+        $encoder = (new CharsetConverter)->inputEncoding('utf-8')->outputEncoding('iso-8859-15');
+        
         $file = file($request->file->getRealPath());
         $csv = \League\Csv\Reader::createFromPath($request->file('file')->getRealPath());
         $csv->setHeaderOffSet(0);
-
+        $csv->setDelimiter(';');
         $users = [];
         if ($request->type == "instructor") {
-            //  $csv->getRecords();
             foreach ($csv as $data) {
                 $users[] = [
                     "name" => $data["name"],
@@ -42,30 +46,22 @@ class ImportController extends Controller
                     "created_at" => now(),
                     "updated_at" => now()
                 ];
-                //        // $email = new NotificationCreateUser();
-                //        // Mail::to($data["email"])->send($email);
-                //  User::create([
-                //     "name" => $data["name"],
-                //     "lastname" => $data["lastname"],
-                //     "number_document" => $data["number_document"],
-                //     "email" => $data["email"],
-                //     "password" => Hash::make($data["number_document"]),
-                //     "state" => 1,
-                //     "role" => "instructor",
-                //     "created_at" => now(),
-                //     "updated_at" => now(),
-                // ])->limit(70);
-
-
+                $email = new NotificationCreateUser();
+                $correo =$data["email"];
+                Mail::to($correo)->send($email);
             }
             try {
                 DB::table('users')->insert($users);
-            } catch (Exception $e) {
-                dd($e);
+            } catch (QueryException $e) {
+                $errorCode = $e->errorInfo[1];
+                if ($errorCode == 1062) {
+                    Alert::error('Error email duplicado', "Uno de los correos ingresados ya existe.");
+                    return back();
+                }
             }
         } else if ($request->type == "computers") {
             foreach ($csv as $data) {
-                $classroom = Classroom::where('number_classroom','=', $data['number_classroom'])->get(['id']);
+                $classroom = Classroom::where('number_classroom', '=', $data['number_classroom'])->get(['id']);
                 Computer::create(
                     [
                         "code" => $data['code'],

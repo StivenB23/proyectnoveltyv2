@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\ComputerController;
+use App\Http\Controllers\forgotPassword;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoveltyController;
@@ -34,12 +35,14 @@ Route::get('/formp', function ()
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/restaurarcontraseña/{document}', [RecoverPasswordController::class, 'index'])->name('recover');
-Route::post('/restaurarcontraseña', [RecoverPasswordController::class, 'notification']);
+Route::get('/restartPassword/{document}', [RecoverPasswordController::class, 'index'])->name('recover');
+Route::post('/restartPassword', [RecoverPasswordController::class, 'notification']);
 Route::post('/recoverpassword', [RecoverPasswordController::class, 'recover']);
 
 Route::get('/Registro', [UserController::class, 'create'])->middleware('auth')->name('formUser');
 Route::post('/Registro', [UserController::class, 'store'])->middleware('auth')->name('formUser');
+Route::get('/Recuperarcontraseña', [forgotPassword::class, 'formForgotPassword'])->name('forgotPassword');
+Route::post('/restaurar', [forgotPassword::class, 'resetPassword'])->name('resetPassword');
 
 Route::get('/Novedades', [NoveltyController::class, 'index'])->middleware('auth')->name('novelties');
 Route::get('/Novedad', [NoveltyController::class, 'create'])->middleware('auth')->name('novelty');
@@ -62,6 +65,7 @@ Route::post('/changeEmail',[UserController::class, 'updateInformation'])->middle
 
 Route::get('/equipos', [ComputerController::class, 'index' ])->middleware('auth')->name('listcomputers');
 
+Route::post('/uploadData',[ImportController::class, 'store'])->middleware('auth')->name('uploadData');
 // middleware que restringe que permite el acceso a administrador
 Route::middleware(['auth','validate-role-user:administrador'])->group(function(){
     Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users');
@@ -70,9 +74,9 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
     Route::get('/computer/{id}', [ComputerController::class,'edit'])->middleware('auth');
     Route::put('/computer/{id}', [ComputerController::class,'update'])->middleware('auth');
     Route::post('/changeStateUser',[UserController::class, 'changeStateUser'])->middleware('auth');
-    Route::post('/uploadData',[ImportController::class, 'store'])->middleware('auth')->name('uploadData');
     Route::post('/limpiarAmbiente', [UserController::class, 'cleanClassroom'])->middleware('auth')->name('classroomClean');
     Route::post('/quitarambiente', [UserController::class, 'removeClassroom'])->middleware('auth')->name('classroomRemove');
+    Route::post('/limpiarComputadores', [ComputerController::class, 'cleanComputers'])->middleware('auth')->name('computerClean');
 
     Route::post("/terminarnovedad",[NoveltyController::class, 'finishNovelty']);
 });

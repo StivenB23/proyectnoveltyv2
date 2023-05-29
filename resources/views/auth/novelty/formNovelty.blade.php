@@ -18,7 +18,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">REGISTRAR NOVEDAD</h4>
+                <h4 class="card-title">REGISTRAR NOVEDAD AMBIENTE</h4>
                 <form action="{{ route('novelty') }}" enctype="multipart/form-data" method="post" class="forms-sample">
                     @csrf
                     <div class="row ">

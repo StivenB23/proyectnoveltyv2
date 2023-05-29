@@ -4,8 +4,10 @@
         <h3 class="mt-1">NOVEDADES</h3>
         <form action="{{ route('noveltyClean') }}" method="POST">
             @csrf
-            <button class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2"><i
-                    class="mdi mdi-broom fs-4"></i></button>
+            @if (!$novelties->isEmpty())
+                <button class="btn btn-gradient-primary btn-rounded btn-icon mt-2 pt-2"><i class="mdi mdi-broom fs-4"
+                        title="Limpiar novedades"></i></button>
+            @endif
         </form>
         <table class="table table-light table-hover	 table-borderless align-middle" id="myTable">
             <thead>
@@ -28,7 +30,8 @@
                             {{ $novelty->id }}
                         </td>
                         <td scope="row">{{ $novelty->date_novelty }}</td>
-                        <td scope="row">{{ $novelty->date_resolved == null ? 'No resuelto':$novelty->date_resolved }}</td>
+                        <td scope="row">{{ $novelty->date_resolved == null ? 'No resuelto' : $novelty->date_resolved }}
+                        </td>
                         <td scope="row">{{ $novelty->type }}</td>
                         <td scope="row">
                             {{ $novelty->details_procces == null ? 'No hay detalle' : $novelty->details_procces }}</td>

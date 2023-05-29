@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classroom;
 use App\Models\Novelty;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -43,13 +44,12 @@ class ClassroomController extends Controller
             "classroom" => "required"
         ];
         $this->validate($request,$rules);
-
         try {
             $classroom = new Classroom();
             $classroom->number_classroom = $request->classroom;
             $classroom->save();
             Alert::toast('Ambiente Registrado', 'success');
-        } catch (\Throwable $th) {
+        } catch (Exception $th) {
             Alert::toast('Hubo un error, vuelve a intentarlo', 'error');
         }
         return redirect()->route('users');
@@ -64,18 +64,12 @@ class ClassroomController extends Controller
     public function show($id)
     {
         $classroom = Classroom::where('id', '=', $id)->get(['id', 'number_classroom','user_id']);
-        // $classroom = Novelty::join('images','images.novelty_id','=','novelties.id')
-        // ->where('novelties.classroom_id',$id)
-        // ->get(['novelties.id','images.image','novelties.date_novelty','novelties.date_resolved','novelties.description','novelties.details_procces','novelties.state','novelties.user_id','novelties.classroom_id']);
         $history = Classroom::find($id)->novelties;
-        
-
         return view('auth/classroom.historyClassroom')->with("classroom", $classroom)->with("history", $history);
     }
 
     public function myClassroom()
     {
-        // $history = Classroom::find(Auth::user()->classroom_id)->novelties;
         $classroom = Classroom::where('user_id',Auth::user()->id)->get(['id','number_classroom']);
         return view('auth/classroom.myClassroom')->with('classroom',$classroom);
     }

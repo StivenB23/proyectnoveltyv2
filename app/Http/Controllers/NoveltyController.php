@@ -78,16 +78,16 @@ class NoveltyController extends Controller
             $imageObject->novelty_id = $novelty->id;
             $imageObject->save();
         }
-        // try {
-        //     $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
-        //         ->where('classrooms.id', $request->classroom)
-        //         ->get('users.email');
-        //     $email = new NotificationInstructor(now()->toDateTimeString(), $description);
-        //     Mail::to($emailObject[0]->email)->send($email);
-        //     Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        // }
+        try {
+            $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
+                ->where('classrooms.id', $request->classroom)
+                ->get('users.email');
+            $email = new NotificationInstructor(now()->toDateTimeString(), $description);
+            Mail::to($emailObject[0]->email)->send($email);
+            Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
+        } catch (Exception $th) {
+            Alert::error('Novedad Error', 'Se ha presentado un error y no fue posible crear la novedad, intente nuevamente');
+        }
 
         return redirect()->route('novelty');
     }
@@ -112,6 +112,7 @@ class NoveltyController extends Controller
             Mail::to($emailObject[0]->email)->send($email);
             Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
         } catch (\Throwable $th) {
+            Alert::error('Novedad Error', 'Se ha presentado un error y no fue posible crear la novedad, intente nuevamente');
             //throw $th;
         }
 

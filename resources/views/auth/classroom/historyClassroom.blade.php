@@ -2,7 +2,7 @@
 @section('content')
     <div class="">
         @if ($history->count() == 0)
-            <h3>NO HAY NOVEDADES</h3>
+            <h3><a href="{{ route('classrooms') }}" class="menu-title mdi mdi-chevron-left"></a> NO HAY NOVEDADES</h3>
         @else
             <h2><a href="{{ route('classrooms') }}" class="menu-title mdi mdi-chevron-left"></a> Historial Ambiente
                 {{ $classroom[0]->number_classroom }}</h2>
@@ -42,7 +42,6 @@
                                         $description = substr($data->description, 3, 90);
                                     @endphp
                                     <p class="card-text">{!! $description !!}...</p>
-                                    {{-- <img src="{{asset('storage/NoveltyImage/'.$data->photo_evidence)}}" width="100" alt=""> --}}
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#novelty-{{ $data->id }}">
@@ -61,10 +60,11 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <div class="col-12 overflow-auto">
+                                                        <div class="col-11 bg-white rounded mx-auto d-flex overflow-auto">
                                                             @if ($data->type == 'ambiente')
                                                                 @foreach ($data->images as $image)
-                                                                    <img src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                                    <img class="m-1 rounded shadow "
+                                                                        src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
                                                                         width="300" alt="">
                                                                 @endforeach
                                                             @endif
@@ -72,13 +72,17 @@
                                                         <div class="col-12">
 
                                                             <h4>Fecha Novedad: {{ $dateFormat }}</h4>
-                                                            @if ($data->date_resolved !== null)
+                                                            @if ($data->date_resolved != null)
                                                                 <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                                             @endif
                                                             <p>Tipo Novedad: {{ $data->type }}</p>
-                                                            <p>Estado: {{ $data->state }}</p>
-                                                            <p><b>Descripción:</b></p>
+                                                            <p>Estado: <b>{{ $data->state }}</b></p>
+                                                            <p class="mb-0"><b>Descripción:</b></p>
                                                             {!! $data->description !!}
+                                                            @if ($data->details_procces !== null)
+                                                                <p class="mb-0"><b>Descripción del proceso:</b></p>
+                                                                <p>{{ $data->details_procces }}</p>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -143,23 +147,29 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-12 overflow-auto">
+                                                            <div
+                                                                class="col-11 bg-white rounded mx-auto d-flex overflow-auto">
                                                                 @if ($data->type == 'ambiente')
                                                                     @foreach ($data->images as $image)
-                                                                        <img src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                                        <img class="m-1 rounded shadow "
+                                                                            src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
                                                                             width="300" alt="">
                                                                     @endforeach
                                                                 @endif
                                                             </div>
                                                             <div class="col-12">
-                                                                <h4>Fecha Novedad: {{ $dateFormat }}</h4>
+                                                                <h4>Fecha Novedad:-- {{ $dateFormat }}</h4>
                                                                 @if ($data->date_resolved !== null)
                                                                     <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                                                 @endif
                                                                 <p>Tipo Novedad: {{ $data->type }}</p>
                                                                 <p>Estado: {{ $data->state }}</p>
-                                                                <p><b>Descripción:</b></p>
+                                                                <p class="mb-0"><b>Descripción:</b></p>
                                                                 {!! $data->description !!}
+                                                                @if ($data->details_procces !== null)
+                                                                    <p class="mb-0"><b>Descripción del proceso:</b></p>
+                                                                    <p>{{ $data->details_procces }}</p>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -176,11 +186,4 @@
 
     </div>
     </div>
-    {{-- Moment js --}}
-    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
-    <script>
-        moment.locale();
-        let date = document.getElementById('date-novelty');
-        let dateNew =
-    </script>
 @endsection

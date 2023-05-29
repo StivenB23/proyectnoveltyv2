@@ -46,9 +46,10 @@
                                     <div class="d-flex">
                                         <button type="button" class="btn btn-gradient-info btn-rounded btn-icon"
                                             data-bs-toggle="modal" data-bs-target="#novelty-{{ $data->id }}">
-                                            <i class="mdi mdi-eye"></i>
+                                            <i class="mdi mdi-eye" title="Ver detalle novedad"></i>
                                         </button>
-                                        <button type="submit" class="btn btn-gradient-warning btn-rounded btn-icon">
+                                        <button type="submit" class="btn btn-gradient-danger btn-rounded btn-icon"
+                                            title="Poner en proceso">
                                             <i class="mdi mdi-cube-send fs-4"></i>
                                         </button>
                                     </div>
@@ -56,18 +57,20 @@
 
                                 @case('en proceso')
                                     <input type="hidden" name="state" value="hecho">
-                                    <button type="button" class="btn btn-gradient-info btn-rounded btn-icon mx-2" data-bs-toggle="modal"
-                                        data-bs-target="#novelty-{{ $data->id }}">
+                                    <button type="button" class="btn btn-gradient-info btn-rounded btn-icon mx-2"
+                                        data-bs-toggle="modal" data-bs-target="#novelty-{{ $data->id }}"
+                                        title="Ver detalle novedad">
                                         <i class="mdi mdi-eye"></i>
-                                    </button> 
-                                    <button type="submit" class="btn btn-gradient-success btn-rounded btn-icon mx-2">
+                                    </button>
+                                    <button type="submit" class="btn btn-gradient-success btn-rounded btn-icon mx-2"
+                                        title="terminar novedad">
                                         <i class="mdi mdi-check-circle-outline fs-4"></i>
                                     </button>
                                 @break
 
                                 @default
                                     <button type="button" class="btn btn-gradient-info btn-rounded btn-icon" data-bs-toggle="modal"
-                                        data-bs-target="#novelty-{{ $data->id }}">
+                                        data-bs-target="#novelty-{{ $data->id }}" title="Ver detalle novedad">
                                         <i class="mdi mdi-eye"></i>
                                     </button>
                             @endswitch
@@ -88,7 +91,8 @@
                                         @if ($data->type == 'ambiente')
                                             <div class="col-12 overflow-auto">
                                                 @foreach ($data->images as $image)
-                                                    <img class="my-1" src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
+                                                    <img class="my-1"
+                                                        src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
                                                         width="300" alt="">
                                                 @endforeach
                                             </div>
@@ -102,9 +106,11 @@
                                                 <p>Equipo:<b>{{ $data->computer->number_computer }}</b></p>
                                             @endif
                                             <p>Ambiente:<b>{{ $data->classroom->number_classroom }}</b></p>
-                                            <p><b>Descripción Proceso:</b><br> {{ $data->details_procces }}</p>
-                                            <p><b>Descripción novedad:</b></p>
+                                            <p class="mb-0"><b>Descripción novedad:</b></p>
                                             {!! $data->description !!}
+                                            @if ($data->details_procces !== null)
+                                                <p class="mb-0"><b>Descripción Proceso:</b><br> {{ $data->details_procces }}</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
