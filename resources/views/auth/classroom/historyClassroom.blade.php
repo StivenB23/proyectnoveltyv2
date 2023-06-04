@@ -65,7 +65,7 @@
                                                                 @foreach ($data->images as $image)
                                                                     <img class="m-1 rounded shadow "
                                                                         src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
-                                                                        width="300" alt="">
+                                                                        width="200" height="250" alt="">
                                                                 @endforeach
                                                             @endif
                                                         </div>
@@ -153,7 +153,7 @@
                                                                     @foreach ($data->images as $image)
                                                                         <img class="m-1 rounded shadow "
                                                                             src="{{ asset('storage/NoveltyImage/' . $image->image) }}"
-                                                                            width="300" alt="">
+                                                                            width="300" height="300" alt="">
                                                                     @endforeach
                                                                 @endif
                                                             </div>

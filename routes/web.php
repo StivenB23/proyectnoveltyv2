@@ -10,6 +10,7 @@ use App\Http\Controllers\RecoverPasswordController;
 use App\Http\Controllers\UserController;
 use App\Models\Novelty;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +85,4 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
 Route::get('/dashboard', function () {
     return view('auth.dashboard');
 })->name('dashboard')->middleware('auth');
+// URL::forceScheme('https'); convierte http a https producción

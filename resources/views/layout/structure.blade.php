@@ -12,6 +12,7 @@
      <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
      <!-- End layout styles -->
      <link rel="shortcut icon" href="{{ asset('assets/images/LOGO_ASISQUICK.png') }}" />
+     
 </head>
 <body>
     @yield('content')

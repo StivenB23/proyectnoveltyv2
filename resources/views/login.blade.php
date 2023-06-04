@@ -7,7 +7,9 @@
         <div class="row flex-grow">
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
-              <h1 class="fw-bold fs-2 text-primary" >AsisQuick</h1>
+              <h1 class="fw-bold fs-2 text-primary" ><img
+                src="{{ asset('assets/images/logoSena.png') }}" alt="logo sena"
+                style="width: 30px; height:30px"> AsisQuick</h1>
               <h4>¡Hola! empecemos</h4>
               <h6 class="font-weight-light">Inicia sesión para continuar.</h6>
               <form action="{{route('login')}}" method="post" class="pt-3">

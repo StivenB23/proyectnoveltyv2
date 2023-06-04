@@ -136,8 +136,7 @@ class UserController extends Controller
         $rules = [
             "name" => "required",
             "lastname" => "required",
-            "email" => "required",
-            "classrooms" => "required",
+            "email" => "required"
         ];
         $this->validate($request, $rules);
         $user = User::find($id);

@@ -4,12 +4,13 @@ buttonScanner?.addEventListener("click", () => {
     const html5QrCode = new Html5Qrcode("reader");
     const qrCodeSuccessCallback = (result, objetoresult) => {
         document.getElementById("inputCodeComputer").value = result;
+        console.log(result);
         html5QrCode.stop();
     };
     html5QrCode.start({ facingMode: "user", facingMode: "environment" },
         {
             fps: 10,    // Optional, frame per seconds for qr code scanning
-            qrbox: { width: 350, height: 350 }  // Optional, if you want bounded box UI
+            qrbox: { width: 360, height: 350 }  // Optional, if you want bounded box UI
         }, qrCodeSuccessCallback);
 })
 // Image preview

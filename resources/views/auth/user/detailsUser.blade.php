@@ -39,11 +39,12 @@
                             @endforeach
                             <br>
                             <small>Seleccione el/los nuevo/s ambiente, incluidos los antiguos si es el caso.</small>
-                            <select class="form-select form-select-sm" name="classrooms[]" id="classrooms" required>
+                            <select class="form-select form-select-sm" multiple name="classrooms[]" id="classrooms" required>
                               <option value="NULL" selected>No cambiar</option>
                                 @foreach ($classrooms as $classroom)
                                     <option value="{{ $classroom->id }}"  >
-                                        {{ $classroom->number_classroom }} {{ $classroom->user_id == $user->id ? 'Mi ambiente' : 'disponible' }}
+                                        {{ $classroom->number_classroom }}
+                                       {{ $classroom->user_id == null ? 'Disponible':'No disponible' }}
                                     </option>
                                 @endforeach
                             </select>

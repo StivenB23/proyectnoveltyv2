@@ -52,6 +52,7 @@ class ImportController extends Controller
             }
             try {
                 DB::table('users')->insert($users);
+                Alert::success('Carga Exitosa', "Los usuarios han sido cargados de forma exitosa.");
             } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
                 if ($errorCode == 1062) {
@@ -70,6 +71,7 @@ class ImportController extends Controller
                     ]
                 );
             }
+            Alert::success('Carga Exitosa', "Los equipos han sido cargados de forma exitosa.");
         } else {
             foreach ($csv as $data) {
                 $classroom = Classroom::create([
@@ -77,6 +79,7 @@ class ImportController extends Controller
                     "user_id" => null
                 ]);
             }
+            Alert::success('Carga Exitosa', "Los ambientes han sido cargados de forma exitosa.");
         }
 
         return redirect()->route('users');

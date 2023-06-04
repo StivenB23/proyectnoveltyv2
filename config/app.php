@@ -16,7 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+    'https' => env('OCTANE_HTTPS', false),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -55,7 +55,6 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
     'asset_url' => env('ASSET_URL'),
 
     /*
