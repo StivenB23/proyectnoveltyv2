@@ -81,8 +81,8 @@ class NoveltyController extends Controller
         try {
             $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
                 ->where('classrooms.id', $request->classroom)
-                ->get('users.email');
-            $email = new NotificationInstructor(now()->toDateTimeString(), $description);
+                ->get(['users.email','classrooms.number_classroom']);
+            $email = new NotificationInstructor($emailObject[0]->number_classroom, now()->toDateTimeString(), $description);
             Mail::to($emailObject[0]->email)->send($email);
             Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
         } catch (Exception $th) {
@@ -107,8 +107,8 @@ class NoveltyController extends Controller
         try {
             $emailObject = Classroom::join('users', 'users.id', '=', 'classrooms.user_id')
                 ->where('classrooms.id', $computer[0]->classroom_id)
-                ->get('users.email');
-            $email = new NotificationInstructor(now()->toDateTimeString(), $description);
+                ->get(['users.email','classrooms.number_classroom']);
+            $email = new NotificationInstructor($emailObject[0]->number_classroom, now()->toDateTimeString(), $description);
             Mail::to($emailObject[0]->email)->send($email);
             Alert::success('Novedad Creada', 'La novedad fue creada exitosamente y el cuentadante fue notificado');
         } catch (\Throwable $th) {

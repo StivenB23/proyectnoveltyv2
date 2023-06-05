@@ -13,6 +13,7 @@ class NotificationInstructor extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $classroom;
     public $date;
     public $description;
     /**
@@ -20,8 +21,9 @@ class NotificationInstructor extends Mailable
      *
      * @return void
      */
-    public function __construct($date,$description)
+    public function __construct($classroom, $date,$description)
     {
+        $this->classroom = $classroom;
         $this->date = $date;
         $this->description = $description;
     }
@@ -48,6 +50,7 @@ class NotificationInstructor extends Mailable
         return new Content(
             view: 'emails.notificationNovely',
             with:[
+                'classroom'=>$this->classroom,
                 'date' => $this->date,
                 'description' => $this->description
             ]
