@@ -9,7 +9,7 @@
                         <p>{{ Auth::user()->number_document }}</p>
                         <form action="/changeEmail" method="post">
                             @csrf
-                            <div class="col-6 form-group">
+                            <div class="col-12 col-md-6 form-group">
                                 <input type="hidden" name="id" value="{{ Auth::user()->id }}">
                                 <label class="fw-bold" for="exampleInputEmail1">Correo</label>
                                 <input type="email" name="email" class="form-control" id="exampleInputEmail1"
@@ -18,7 +18,7 @@
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="col-6 form-group">
+                            <div class="col-12 col-md-6 form-group">
                                 <label class="fw-bold" for="exampleInputEmail1">Nueva contraseña:</label>
                                 @error('password')
                                     <small class="text-danger">{{ $message }}</small>
