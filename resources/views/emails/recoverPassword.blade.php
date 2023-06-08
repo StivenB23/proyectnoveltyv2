@@ -85,7 +85,7 @@
                 <div class="cardBody">
                     <p>AsisQuick ha iniciado el proceso de restaurar contraseña, para continuar el proceso ingrese al enlace de abajo.</p>
                     <div class="links">
-                        <a href="http://127.0.0.1:8000/restartPassword/{{$document}}">Restaurar</a>
+                        <a href="https://asisquick.datasena.com/restartPassword/{{$document}}">Restaurar</a>
                     </div>
                 </div>
                 <div class="cardFooter">
