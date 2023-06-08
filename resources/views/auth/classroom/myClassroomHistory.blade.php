@@ -1,8 +1,12 @@
 @extends('layout.dashboardLayout')
 @section('content')
+    <div>
+        <label class="fw-bold" for="inputFilter">Filtrar</label>
+        <input type="text" name="filterSearch" id="inputFilter" placeholder="Filtrar" class="form-control my-2" aria-label="Text input with dropdown button">
+    </div>
     <div class="d-flex gap-2 flex-wrap">
         @foreach ($history as $data)
-            <div class="card h-auto" style="width: 18rem;">
+            <div class="card h-auto" id="card" state="{{$data->state}}" date="{{$data->date_novelty}}" style="width: 18rem;">
                 <div class="card-body">
                     <div class=" d-flex justify-content-between">
                         @php
@@ -99,6 +103,7 @@
                                         @endif
                                         <div class="col-12">
                                             <h4>Fecha Novedad: {{ $dateFormat }}</h4>
+                                            <h4>Notificado por: {{$data->instructor->name}}</h4>
                                             @if ($data->date_resolved !== null)
                                                 <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                             @endif
@@ -109,7 +114,8 @@
                                             <p class="mb-0"><b>Descripción novedad:</b></p>
                                             {!! $data->description !!}
                                             @if ($data->details_procces !== null)
-                                                <p class="mb-0"><b>Descripción Proceso:</b><br> {{ $data->details_procces }}</p>
+                                                <p class="mb-0"><b>Descripción Proceso:</b><br>
+                                                    {{ $data->details_procces }}</p>
                                             @endif
                                         </div>
                                     </div>

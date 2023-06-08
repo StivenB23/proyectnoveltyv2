@@ -20,7 +20,8 @@ class ComputerController extends Controller
     public function index()
     {
         $computers = Computer::all();
-        return view("auth/computer/computers")->with("computers", $computers);
+        $classrooms = Classroom::all();
+        return view("auth/computer/computers")->with("computers", $computers)->with("classrooms", $classrooms);
     }
 
     /**
@@ -41,7 +42,17 @@ class ComputerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $computer = new Computer();
+            $computer->code = $request->code;
+            $computer->number_computer = $request->numberComputer;
+            $computer->classroom_id = $request->classroom;
+            $computer->save();
+            Alert::success('Equipo Creado', "El equipo ha sido creado de forma exitosa.");
+        } catch (\Throwable $th) {
+            return $th;
+        }
+        return redirect()->route("listcomputers");
     }
 
     /**

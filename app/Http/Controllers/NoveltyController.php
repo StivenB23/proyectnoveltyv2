@@ -26,7 +26,7 @@ class NoveltyController extends Controller
      */
     public function index()
     {
-        $novelties = Novelty::all();
+        $novelties = Novelty::select('*')->orderBy('date_novelty', 'desc')->get();
         return view('auth/novelty.novelties')->with("novelties", $novelties);
     }
 

@@ -13,7 +13,7 @@ class Classroom extends Model
     protected $fillable = ["number_classroom","user_id"];
     public function novelties()
     {
-        return $this->hasMany(Novelty::class);
+        return $this->hasMany(Novelty::class)->orderBy('date_novelty', 'desc');
     }
     public function user()
     {

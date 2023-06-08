@@ -13,22 +13,37 @@ buttonScanner?.addEventListener("click", () => {
             qrbox: { width: 360, height: 350 }  // Optional, if you want bounded box UI
         }, qrCodeSuccessCallback);
 })
+// Filters cards
+let inputFilter = document.getElementById("inputFilter");
+inputFilter?.addEventListener("keyup", (e) => {
+    console.log(e.target.value.toLowerCase());
+    let cards = document.querySelectorAll("#card");
+    cards.forEach((card) => {
+        let dateObject = new Date(card.getAttribute("date"));
+        let date = dateObject.getDate() + "/" + (dateObject.getMonth() + 1) + "/" + dateObject.getFullYear();
+        card.getAttribute("state") == e.target.value.toLowerCase() || date == e.target.value ? card.classList.remove("hidden") : card.classList.add("hidden");
+        if (e.target.value == "") {
+            card.classList.remove("hidden");
+        }
+    })
+})
 // Image preview
 let inputFile = document.getElementById("file-ip-1");
 let preview = document.getElementById("content-image");
+let files;
 function createPreview(element) {
     let src = URL.createObjectURL(element);
-    console.log(src);
     img = document.createElement('img');
     img.src = src;
+    img.setAttribute("id", "image")
+    img.setAttribute("name", element.name)
     preview.appendChild(img);
 }
 function showPreview(e) {
-    // console.log(e);
     if (e.target.files.length > 0) {
         console.log(e.target.files);
         let element;
-        let files = e.target.files;
+        files = e.target.files;
         for (let index = 0; index < files.length; index++) {
             element = files[index];
             createPreview(element);
@@ -36,11 +51,33 @@ function showPreview(e) {
 
     }
 }
+function removeImage(file) {
+    const dt = new DataTransfer()
+    const input = inputFile.files
+
+    for (let i = 0; i < input.length; i++) {
+        // console.log(input[i].name);
+        const fileData = files[i]
+        if (file !== input[i].name)
+            dt.items.add(fileData) 
+    }
+    inputFile.files = dt.files
+    let image = document.getElementsByName(file);
+    image[0].classList.add("hidden");
+}
 inputFile?.addEventListener("change", (e) => {
     showPreview(e);
     // console.log(this.files)
 });
-
+document.getElementById("btn-preview").addEventListener("click", () => {
+    let images = document.querySelectorAll("#image");
+    console.log(images);
+    images.forEach(image => {
+        image.addEventListener("click", (e) => {
+            removeImage(e.target.name)
+        })
+    })
+})
 // Datatable
 let table = document.getElementById('myTable');
 if (typeof (table) != null) {

@@ -1,20 +1,5 @@
 @extends('layout.dashboardLayout')
 @section('content')
-    {{-- <form action="" method="post" >
-        <label for="file">Evidencia Fotogenica:</label>
-        <input type="file"  accept="image/*" capture="camera" id="">
-        <label for="photo">Seleccionar ambiente:</label>
-        <select  id="">
-             <option value="" disabled selected>Seleccionar</option>
-         @foreach ($classrooms as $classroom)
-             <option value="{{$classroom->id}}">{{$classroom->number_classroom}}</option>
-         @endforeach
-        </select>
-        @csrf
-        <label for="photo">Descripción:</label>
-        <textarea  id="" cols="30" rows="10" ></textarea>
-        <button type="submit" >Registrar novedad</button>
-    </form> --}}
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -38,7 +23,7 @@
                             </div>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn btn-gradient-primary mb-2" data-bs-toggle="modal"
-                                data-bs-target="#imageUpload">
+                                data-bs-target="#imageUpload" id="btn-preview">
                                 Previsualizar imagen
                             </button>
 
@@ -98,6 +83,7 @@
         tinymce.init({
             selector: 'textarea#editor',
             skin: 'bootstrap',
+            statusbar: false,
             plugins: 'lists, link, image, media',
             toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
             menubar: true,

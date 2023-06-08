@@ -73,12 +73,12 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
     Route::get('/user/{id}', [UserController::class,'edit'])->middleware('auth');
     Route::put('/user/{id}', [UserController::class,'update'])->middleware('auth');
     Route::get('/computer/{id}', [ComputerController::class,'edit'])->middleware('auth');
+    Route::post('/computer', [ComputerController::class,'store'])->name("computer")->middleware('auth');
     Route::put('/computer/{id}', [ComputerController::class,'update'])->middleware('auth');
     Route::post('/changeStateUser',[UserController::class, 'changeStateUser'])->middleware('auth');
     Route::post('/limpiarAmbiente', [UserController::class, 'cleanClassroom'])->middleware('auth')->name('classroomClean');
     Route::post('/quitarambiente', [UserController::class, 'removeClassroom'])->middleware('auth')->name('classroomRemove');
     Route::post('/limpiarComputadores', [ComputerController::class, 'cleanComputers'])->middleware('auth')->name('computerClean');
-
     Route::post("/terminarnovedad",[NoveltyController::class, 'finishNovelty']);
 });
 
