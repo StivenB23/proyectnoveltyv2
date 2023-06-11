@@ -27,9 +27,12 @@ inputFilter?.addEventListener("keyup", (e) => {
         }
     })
 })
+
+
 // Image preview
 let inputFile = document.getElementById("file-ip-1");
 let preview = document.getElementById("content-image");
+let botonPreview = document.getElementById("btn-preview");
 let files;
 function createPreview(element) {
     let src = URL.createObjectURL(element);
@@ -67,9 +70,8 @@ function removeImage(file) {
 }
 inputFile?.addEventListener("change", (e) => {
     showPreview(e);
-    // console.log(this.files)
 });
-document.getElementById("btn-preview").addEventListener("click", () => {
+botonPreview?.addEventListener("click", () => {
     let images = document.querySelectorAll("#image");
     console.log(images);
     images.forEach(image => {
@@ -78,7 +80,7 @@ document.getElementById("btn-preview").addEventListener("click", () => {
         })
     })
 })
-// Datatable
+// // Datatable
 let table = document.getElementById('myTable');
 if (typeof (table) != null) {
     let dataTable = new DataTable(table, {

@@ -51,7 +51,7 @@
                     <th>Código</th>
                     <th>N° equipo</th>
                     <th>Ambiente</th>
-                    {{-- <th colspan="2">Acciones</th> --}}
+                    <th colspan="2">Acciones</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -63,6 +63,14 @@
                         <td scope="row">{{ $computer->number_computer }}</td>
                         <td scope="row">
                             {{ $computer->classroom->number_classroom == null ? 'No asignado' : $computer->classroom->number_classroom }}
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ route('deletecomputer') }}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $computer->id }}">
+                                <button type="submit" class="btn btn-gradient-danger btn-rounded btn-icon mt-2"  title="Añadir Equipo"><i class="mdi mdi-delete-empty"></i>
+                            </button>
+                            </form>
                         </td>
 
                     </tr>

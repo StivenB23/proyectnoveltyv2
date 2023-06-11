@@ -69,16 +69,22 @@ Route::get('/equipos', [ComputerController::class, 'index' ])->middleware('auth'
 Route::post('/uploadData',[ImportController::class, 'store'])->middleware('auth')->name('uploadData');
 // middleware que restringe que permite el acceso a administrador
 Route::middleware(['auth','validate-role-user:administrador'])->group(function(){
+    // Users
     Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users');
     Route::get('/user/{id}', [UserController::class,'edit'])->middleware('auth');
     Route::put('/user/{id}', [UserController::class,'update'])->middleware('auth');
-    Route::get('/computer/{id}', [ComputerController::class,'edit'])->middleware('auth');
-    Route::post('/computer', [ComputerController::class,'store'])->name("computer")->middleware('auth');
-    Route::put('/computer/{id}', [ComputerController::class,'update'])->middleware('auth');
     Route::post('/changeStateUser',[UserController::class, 'changeStateUser'])->middleware('auth');
     Route::post('/limpiarAmbiente', [UserController::class, 'cleanClassroom'])->middleware('auth')->name('classroomClean');
     Route::post('/quitarambiente', [UserController::class, 'removeClassroom'])->middleware('auth')->name('classroomRemove');
+
+    // Computers
+    Route::get('/computer/{id}', [ComputerController::class,'edit'])->middleware('auth');
+    Route::post('/computer', [ComputerController::class,'store'])->name("computer")->middleware('auth');
+    Route::post('/deleteComputer', [ComputerController::class, 'destroy'])->name("deletecomputer");
+    Route::put('/computer/{id}', [ComputerController::class,'update'])->middleware('auth');
     Route::post('/limpiarComputadores', [ComputerController::class, 'cleanComputers'])->middleware('auth')->name('computerClean');
+
+    // Novelties
     Route::post("/terminarnovedad",[NoveltyController::class, 'finishNovelty']);
 });
 
