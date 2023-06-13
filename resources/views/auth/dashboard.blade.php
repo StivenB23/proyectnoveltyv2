@@ -15,7 +15,7 @@
                                         <img src="assets/images/dashboard/circle.svg" class="card-img-absolute"
                                             alt="circle-image" />
                                         <h2 class="mb-5 fs-6 fs-md-4 fs-lg-2">Manual de Usuario</h2>
-                                        <i class="mdi mdi-arrow-down-bold-circle-outline fs-2"></i><span>Descargar</span>
+                                        <a href="https://drive.google.com/file/d/12SlqZ837A6lK0EQQEeVVwDksOu862F1q/view?usp=sharing" target="_blank"><i class="mdi mdi-arrow-down-bold-circle-outline fs-2"></i><span>Descargar</span></a> 
                                     </div>
                                 </div>
                             </div>
@@ -26,8 +26,9 @@
                                             <img src="assets/images/dashboard/circle.svg" class="card-img-absolute"
                                                 alt="circle-image" />
                                             <h2 class="mb-5 fs-6 fs-md-4 fs-lg-2">Manual Técnico</h2>
-                                            <i
-                                                class="mdi mdi-arrow-down-bold-circle-outline fs-2"></i><span>Descargar</span>
+                                            <a href="https://drive.google.com/file/d/1v7oOkbnn_xRrjDwgoj2UA-7ENumIBS8-/view?usp=sharing" target="_blank"><i
+                                                class="mdi mdi-arrow-down-bold-circle-outline fs-2"></i><span>Descargar</span></a>
+                                            
                                         </div>
                                     </div>
                                 </div>
