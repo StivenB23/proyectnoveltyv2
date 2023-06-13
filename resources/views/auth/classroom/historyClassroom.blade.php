@@ -75,7 +75,7 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <h4>Fecha Novedad: {{ $dateFormat }}</h4>
-                                                            <h4>Notificado por: {{$data->instructor->name}}</h4>
+                                                            <h4>Notificado por: {{$data->instructor->name }} {{ $data->instructor->lastname}}</h4>
                                                             @if ($data->date_resolved != null)
                                                                 <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                                             @endif
@@ -163,7 +163,7 @@
                                                             </div>
                                                             <div class="col-12">
                                                                 <h4>Fecha Novedad:-- {{ $dateFormat }}</h4>
-                                                                <h4>Notificado por: {{$data->instructor->name}}</h4>
+                                                                <h4>Notificado por: {{$data->instructor->name }} {{ $data->instructor->lastname}}</h4>
                                                                 @if ($data->date_resolved !== null)
                                                                     <h4>Resuelto el {{ $dateFormatResolved }}</h4>
                                                                 @endif
