@@ -9,6 +9,7 @@
                         <div class="auth-form-light text-left p-5">
                             <h1 class="fw-bold fs-2 text-primary">AsisQuick</h1>
                             <h4>Restaurar contraseña</h4>
+                            <a href="{{ route('login') }}">Volver</a>
                             <form action="{{ route('resetPassword') }}" method="post" class="pt-3">
                                 @csrf
                                 <div class="form-group">
