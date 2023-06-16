@@ -10,8 +10,8 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label>Evidencia Fotográfica.(Minimo una imagen y maximo tres)</label>
-                                <input type="file" multiple id="file-ip-1" accept="image/*" 
-                                    name="files[]" class="file-upload-default">
+                                <input type="file" multiple id="file-ip-1" accept="image/*" name="files[]"
+                                    class="file-upload-default">
                                 <div class="input-group col-xs-12">
                                     <input type="text" class="form-control file-upload-info" disabled
                                         placeholder="Cargar Imagen">
@@ -20,6 +20,9 @@
                                             type="button">Cargar</button>
                                     </span>
                                 </div>
+                                @error('files')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn btn-gradient-primary mb-2" data-bs-toggle="modal"
@@ -46,7 +49,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="col form-group">
-                                <label for="photo">Seleccionar ambiente:<b class="text-danger" >*</b></label>
+                                <label for="photo">Seleccionar ambiente:<b class="text-danger">*</b></label>
                                 <select class="form-control" name="classroom" id="">
                                     <option value="" disabled selected>Seleccionar</option>
                                     @foreach ($classrooms as $classroom)
@@ -58,7 +61,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">Descripción:<b class="text-danger" >*</b></label>
+                                <label for="" class="form-label">Descripción:<b class="text-danger">*</b></label>
                                 @error('description')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -78,7 +81,8 @@
     </div>
 
     <!-- TinyMCE CDN -->
-    <script src="https://cdn.tiny.cloud/1/hwmrt8clrbojrvcwv76ey23z7hq7hrt93os3bhnceg2crkk2/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/hwmrt8clrbojrvcwv76ey23z7hq7hrt93os3bhnceg2crkk2/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea#editor',

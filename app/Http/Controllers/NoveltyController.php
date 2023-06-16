@@ -59,10 +59,12 @@ class NoveltyController extends Controller
         $rules = [
             "classroom" => "required",
             "description" => "required",
+            "files" => "required"
         ];
         $messages = [
             "classroom.required" => "Debe seleccionar un ambiente",
-            "description.required" => "Debe incluir una descripción"
+            "description.required" => "Debe incluir una descripción",
+            "files.required" => "Debe incluir minimo una imagen"
         ];
         $this->validate($request, $rules, $messages);
         $description = html_entity_decode($request->description);
