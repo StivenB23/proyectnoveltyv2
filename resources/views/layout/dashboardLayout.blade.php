@@ -113,8 +113,6 @@
                         </a>
                         <div class="collapse" id="novelties">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('myAmbient') }}">Mi
-                                        ambiente</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ route('novelty') }}">
                                         Novedad Ambiente</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{ route('noveltycomputer') }}">
@@ -145,10 +143,24 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('classrooms') }}">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#classrooms" aria-expanded="false"
+                            aria-controls="classrooms">
                             <span class="menu-title">Ambientes</span>
-                            <i class="mdi mdi-chair-school menu-icon"></i>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-chair-school"></i>
                         </a>
+                        <div class="collapse" id="classrooms">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('myAmbient') }}">Mi
+                                        ambiente</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('classrooms') }}">
+                                        Ver ambientes</a></li>
+                                @if (Auth::user()->role === 'administrador')
+                                    <li class="nav-item"> <a class="nav-link" href="{{ route('listarAmbiente') }}">Listar
+                                            ambientes</a></li>
+                                @endif
+                            </ul>
+                        </div>
                     </li>
                     @if (Auth::user()->role === 'administrador')
                         <li class="nav-item">

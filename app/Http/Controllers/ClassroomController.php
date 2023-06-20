@@ -23,6 +23,11 @@ class ClassroomController extends Controller
         return view('auth/classroom.classrooms')->with("classrooms", $classrooms);
     }
 
+    function listClassrooms()  {
+        $classrooms = Classroom::select('*')->orderBy('number_classroom', 'asc')->get();
+        return view('auth/classroom.listClassrooms')->with("classrooms",$classrooms); 
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -53,7 +58,7 @@ class ClassroomController extends Controller
         } catch (Exception $th) {
             Alert::toast('Hubo un error, vuelve a intentarlo', 'error');
         }
-        return redirect()->route('users');
+        return redirect()->route('listarAmbiente');
     }
 
     /**
@@ -110,8 +115,26 @@ class ClassroomController extends Controller
      * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Classroom $classroom)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            Classroom::destroy($request->id);
+            Alert::success("Ambiente eliminado","El ambiente fue eliminado de forma exitosa");
+        } catch (\Throwable $th) {
+            Alert::error("Error","El ambiente tiene equipos y novedades registrados no es posible eliminarlo");
+        }
+        return redirect()->route("listarAmbiente");
+    }
+
+    function deleteClassroom()  {
+        try {
+            DB::statement("SET foreign_key_checks=0");
+            DB::select("DELETE FROM classrooms");
+            DB::statement("SET foreign_key_checks=1");
+            Alert::success('Limpieza ambientes', "Los ambientes fueron eliminados");
+        } catch (\Throwable $th) {
+            Alert::success('Error', "Se ha presentado un error al limpiar ambientes");
+        }
+        return redirect()->route('ambientes');
     }
 }

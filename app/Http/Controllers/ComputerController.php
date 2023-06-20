@@ -111,7 +111,7 @@ class ComputerController extends Controller
             DB::statement("SET foreign_key_checks=1");
             Alert::success('Limpiando Equipos', "Los equipos han sido limpiados exitosamente");
         } catch (Exception $th) {
-            Alert::success('Error', "Se ha presentado un error al limpiar los equipos");
+            Alert::error('Error', "Se ha presentado un error al limpiar los equipos");
         }
         return redirect()->route('novelties');
     }
@@ -122,8 +122,19 @@ class ComputerController extends Controller
      * @param  \App\Models\Computer  $computer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Computer $computer)
+    public function destroy(Request $request)
     {
-        //
+        $rules = [
+            "id" => "required"
+        ];
+        $this->validate($request, $rules);
+
+        try {
+            Computer::destroy($request->id);
+            Alert::success('Equipo Eliminado', "El equipo fue eliminado exitosamente");
+        } catch (\Throwable $th) {
+            Alert::error('Error equipo', "El equipo no pudo ser eliminado, mire que el equipo exista.");
+        }
+        return route("computers");
     }
 }

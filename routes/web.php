@@ -86,6 +86,11 @@ Route::middleware(['auth','validate-role-user:administrador'])->group(function()
 
     // Novelties
     Route::post("/terminarnovedad",[NoveltyController::class, 'finishNovelty']);
+
+    // Classrooms
+    Route::get('/listarAmbientes', [ClassroomController::class,'listClassrooms'])->name("listarAmbiente");
+    Route::post('/eliminarambiente', [ClassroomController::class,'destroy']);
+    Route::post('/limpiarambientes', [ClassroomController::class,'deleteClassroom'])->name("deleteClassroom");
 });
 
 Route::get('/dashboard', function () {

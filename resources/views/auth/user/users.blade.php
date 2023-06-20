@@ -6,10 +6,6 @@
             <i class="mdi mdi-account-plus fs-4"></i>
         </a>
         <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon mt-2" data-bs-toggle="modal"
-            data-bs-target="#registerclassroom" title="Añadir Ambiente">
-            <i class="mdi mdi-chair-school"></i><i class="mdi mdi-plus"></i>
-        </button>
-        <button type="button" class="btn btn-gradient-primary btn-rounded btn-icon mt-2" data-bs-toggle="modal"
             data-bs-target="#uploadData" title="Cargar Información"><i class="mdi mdi-upload"></i>
         </button>
         <form class="d-inline" action="{{ route('classroomClean') }}" method="POST">
@@ -61,38 +57,6 @@
 
                             <div class="block-inline mx-auto">
                                 <button type="submit" class="block btn btn-gradient-primary ">Cargar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="registerclassroom" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-mg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">REGISTRAR AMBIENTE</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/ambiente" method="post" class="forms-sample">
-                            @csrf
-                            <div class="row ">
-                                <div class="col form-group">
-                                    <label for="exampleInputUsername1">Número de ambiente:<b
-                                            class="text-danger">*</b></label>
-                                    <input type="numeric" class="form-control" name="classroom" id="exampleInputUsername1"
-                                        placeholder="501, 402..." required>
-                                    @error('classroom')
-                                        <small>{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="block-inline mx-auto">
-
-                                <button type="submit" class="block btn btn-gradient-primary ">Registrar Ambiente</button>
                             </div>
                         </form>
                     </div>
